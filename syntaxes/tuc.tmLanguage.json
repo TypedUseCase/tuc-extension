@@ -24,8 +24,20 @@
 		"keywords": {
 			"patterns": [
 				{
-					"name": "keyword.tuc.name",
-					"match": "\\b(tuc)\\b"
+					"name": "tuc.name",
+					"begin": "^tuc",
+					"end": "$|\\n",
+					"beginCaptures": {
+						"0": {
+							"name": "keyword.tuc.name"
+						}
+					},
+					"patterns": [
+						{
+							"name": "tuc.name.value",
+							"match": ".+?"
+						}
+					]
 				},
 				{
 					"include": "#participants"
