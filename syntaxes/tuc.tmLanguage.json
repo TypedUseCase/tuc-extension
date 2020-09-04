@@ -3,6 +3,9 @@
 	"name": "TypedUseCase",
 	"patterns": [
 		{
+			"include": "#comments"
+		},
+		{
 			"include": "#keywords"
 		},
 		{
@@ -10,6 +13,14 @@
 		}
 	],
 	"repository": {
+		"comments": {
+			"patterns": [
+				{
+					"name": "comment.line",
+					"match": "//.*"
+				}
+			]
+		},
 		"keywords": {
 			"patterns": [
 				{
