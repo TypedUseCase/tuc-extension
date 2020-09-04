@@ -11,10 +11,62 @@
 	],
 	"repository": {
 		"keywords": {
-			"patterns": [{
-				"name": "keyword.control.tuc",
-				"match": "\\b(if|while|for|return)\\b"
-			}]
+			"patterns": [
+				{
+					"name": "keyword.tuc.name",
+					"match": "\\b(tuc)\\b"
+				},
+				{
+					"include": "#participants"
+				},
+				{
+					"include": "#parts"
+				}
+			]
+		},
+		"participants": {
+			"patterns": [
+				{
+					"name": "keyword.tuc.participants",
+					"match": "\\b(participants)\\b"
+				},
+				{
+					"name": "keyword.participant.alias",
+					"match": "\\b(as)\\b"
+				},
+				{
+					"name": "participant.dataObjects.stream",
+					"match": "\\b(\\[\\w+Stream\\])\\b"
+				},
+				{
+					"name": "participant.dataObjects.common",
+					"match": "\\[.+\\]"
+				}
+			]
+		},
+		"parts": {
+			"patterns": [
+				{
+					"name": "keyword.parts.section",
+					"match": "\\b(section)\\b"
+				},
+				{
+					"name": "keyword.parts.group",
+					"match": "\\b(group)\\b"
+				},
+				{
+					"name": "keyword.parts.if",
+					"match": "\\b(if|else)\\b"
+				},
+				{
+					"name": "keyword.parts.loop",
+					"match": "\\b(loop)\\b"
+				},
+				{
+					"name": "keyword.parts.do",
+					"match": "\\b(do)\\b"
+				}
+			]
 		},
 		"strings": {
 			"name": "string.quoted.double.tuc",
