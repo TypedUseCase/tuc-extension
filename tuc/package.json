@@ -1,0 +1,25 @@
+{
+    "name": "tuc",
+    "displayName": "tuc",
+    "description": "Typed-Use-Case - Use case definition, for which this console application can generate PlantUML diagram, where all services are domain specific type safe.",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.48.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "tuc",
+            "aliases": ["TypedUseCase", "tuc"],
+            "extensions": [".tuc"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "tuc",
+            "scopeName": "source.tuc",
+            "path": "./syntaxes/tuc.tmLanguage.json"
+        }]
+    }
+}
