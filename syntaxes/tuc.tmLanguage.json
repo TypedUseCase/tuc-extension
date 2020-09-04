@@ -35,12 +35,25 @@
 					"match": "\\b(as)\\b"
 				},
 				{
-					"name": "participant.dataObjects.stream",
-					"match": "\\b(\\[\\w+Stream\\])\\b"
-				},
-				{
 					"name": "participant.dataObjects.common",
-					"match": "\\[.+\\]"
+					"begin": "\\[",
+					"end": "\\]",
+					"beginCaptures": {
+						"0": {
+							"name": "participant.dataObjects.common.open"
+						}
+					},
+					"endCaptures": {
+						"0": {
+							"name": "participant.dataObjects.common.close"
+						}
+					},
+					"patterns": [
+						{
+							"name": "participant.dataObjects.common.name",
+							"match": ".+?"
+						}
+					]
 				}
 			]
 		},
