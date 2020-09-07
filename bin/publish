@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+
+# vsce login
+
+vsce publish
