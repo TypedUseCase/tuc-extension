@@ -1,32 +1,385 @@
 {
-	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
-	"name": "TypedUseCase",
-	"patterns": [
-		{
-			"include": "#keywords"
-		},
-		{
-			"include": "#strings"
-		}
-	],
-	"repository": {
-		"keywords": {
-			"patterns": [{
-				"name": "keyword.control.tuc",
-				"match": "\\b(if|while|for|return)\\b"
-			}]
-		},
-		"strings": {
-			"name": "string.quoted.double.tuc",
-			"begin": "\"",
-			"end": "\"",
-			"patterns": [
-				{
-					"name": "constant.character.escape.tuc",
-					"match": "\\\\."
-				}
-			]
-		}
-	},
-	"scopeName": "source.tuc"
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "TypedUseCase",
+    "patterns": [
+        {
+            "include": "#comments"
+        },
+        {
+            "include": "#tuc-name"
+        },
+        {
+            "include": "#participants"
+        },
+        {
+            "include": "#parts"
+        },
+        {
+            "include": "#operators"
+        },
+        {
+            "include": "#strings"
+        }
+    ],
+    "repository": {
+        "comments": {
+            "patterns": [
+                {
+                    "name": "comment.line",
+                    "match": "//.*"
+                }
+            ]
+        },
+        "tuc-name": {
+            "patterns": [
+                {
+                    "name": "invalid.tuc.name.indented",
+                    "begin": "^.+tuc",
+                    "end": "$|\\n",
+                    "patterns": [
+                        {
+                            "include": "#comments"
+                        },
+                        {
+                            "name": "invalid.tuc.name.value",
+                            "match": ".+?"
+                        }
+                    ]
+                },
+                {
+                    "name": "invalid.tuc.name.empty",
+                    "match": "^tuc\\s*$|\\n"
+                },
+                {
+                    "name": "tuc.name",
+                    "begin": "^tuc",
+                    "end": "$|\\n",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "entity.name.type.tuc.name"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#comments"
+                        },
+                        {
+                            "name": "entity.name.function.tuc.name",
+                            "match": ".+?"
+                        }
+                    ]
+                }
+            ]
+        },
+        "participants": {
+            "patterns": [
+                {
+                    "name": "invalid.tuc.participants.indented",
+                    "begin": "^.+participants",
+                    "end": "$|\\n",
+                    "patterns": [
+                        {
+                            "include": "#comments"
+                        },
+                        {
+                            "name": "invalid.participants",
+                            "match": ".+?"
+                        }
+                    ]
+                },
+                {
+                    "name": "tuc.participants",
+                    "begin": "^participants",
+                    "end": "$|\\n",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "entity.name.type.participants"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#comments"
+                        },
+                        {
+                            "name": "invalid.participants",
+                            "match": ".+?"
+                        }
+                    ]
+                },
+                {
+                    "name": "keyword.participant.alias",
+                    "match": "\\b(as)\\b"
+                },
+                {
+                    "name": "variable.dataObjects.common",
+                    "begin": "\\[",
+                    "end": "\\]",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "variable.language.dataObjects.common.open"
+                        }
+                    },
+                    "endCaptures": {
+                        "0": {
+                            "name": "variable.language.dataObjects.common.close"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "name": "emphasis.dataObjects.stream",
+                            "match": "\\[.+Stream\\]"
+                        }
+                    ]
+                }
+            ]
+        },
+        "parts": {
+            "patterns": [
+                {
+                    "include": "#section"
+                },
+                {
+                    "include": "#group"
+                },
+                {
+                    "include": "#loop"
+                },
+                {
+                    "include": "#if-else"
+                },
+                {
+                    "include": "#notes"
+                },
+                {
+                    "include": "#do"
+                }
+            ]
+        },
+        "section": {
+            "patterns": [
+                {
+                    "name": "invalid.section.indented",
+                    "begin": "^.+section",
+                    "end": "$|\\n",
+                    "patterns": [
+                        {
+                            "include": "#comments"
+                        },
+                        {
+                            "name": "invalid.section.value",
+                            "match": ".+?"
+                        }
+                    ]
+                },
+                {
+                    "name": "invalid.section.empty",
+                    "match": "^section\\s*$|\\n"
+                },
+                {
+                    "name": "section.name",
+                    "begin": "^section",
+                    "end": "$|\\n",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.section"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#comments"
+                        },
+                        {
+                            "name": "entity.name.function.section",
+                            "match": ".+?"
+                        }
+                    ]
+                }
+            ]
+        },
+        "group": {
+            "patterns": [
+                {
+                    "name": "invalid.group.empty",
+                    "match": "group\\s*$|\\n"
+                },
+                {
+                    "name": "group.name",
+                    "begin": "\\b(group)\\b",
+                    "end": "$|\\n",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.group"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#comments"
+                        },
+                        {
+                            "name": "entity.name.function.group",
+                            "match": ".+?"
+                        }
+                    ]
+                }
+            ]
+        },
+        "loop": {
+            "patterns": [
+                {
+                    "name": "invalid.loop.empty",
+                    "match": "loop\\s*$|\\n"
+                },
+                {
+                    "name": "loop.name",
+                    "begin": "\\b(loop)\\b",
+                    "end": "$|\\n",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.loop"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#comments"
+                        },
+                        {
+                            "name": "variable.other.loop.condition",
+                            "match": ".+?"
+                        }
+                    ]
+                }
+            ]
+        },
+        "if-else": {
+            "patterns": [
+                {
+                    "name": "invalid.if.empty",
+                    "match": "if\\s*$|\\n"
+                },
+                {
+                    "name": "if",
+                    "begin": "\\b(if)\\b",
+                    "end": "$|\\n",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.if"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#comments"
+                        },
+                        {
+                            "name": "variable.other.if.condition",
+                            "match": ".+?"
+                        }
+                    ]
+                },
+                {
+                    "name": "else",
+                    "begin": "\\b(else)\\b",
+                    "end": "$|\\n",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "keyword.control.if.else"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#comments"
+                        },
+                        {
+                            "name": "invalid.if.else",
+                            "match": ".+?"
+                        }
+                    ]
+                }
+            ]
+        },
+        "operators": {
+            "patterns": [
+                {
+                    "name": "keyword.operator.new.read-write",
+                    "match": " -> "
+                },
+                {
+                    "name": "keyword.operator.new.dot",
+                    "match": "\\."
+                }
+            ]
+        },
+        "formatted": {
+            "patterns": [
+                {
+                    "name": "markup.bold",
+                    "match": "\\*{2}.+?\\*{2}"
+                },
+                {
+                    "name": "markup.italic",
+                    "match": "\\*.+?\\*"
+                },
+                {
+                    "name": "markup.underline",
+                    "match": "_{2}.+?_{2}"
+                },
+                {
+                    "name": "markup.underline.waved",
+                    "match": "~{2}.+?~{2}"
+                }
+            ]
+        },
+        "notes": {
+            "patterns": [
+                {
+                    "name": "string.quoted.triple.multi-line-note",
+                    "begin": "\"{3}",
+                    "end": "\"{3}",
+                    "patterns": [
+                        {
+                            "include": "#formatted"
+                        }
+                    ]
+                },
+                {
+                    "name": "string.quoted.triple.multi-line-note.left",
+                    "begin": "\"<\"",
+                    "end": "\"<\"",
+                    "patterns": [
+                        {
+                            "include": "#formatted"
+                        }
+                    ]
+                },
+                {
+                    "name": "string.quoted.triple.multi-line-note.right",
+                    "begin": "\">\"",
+                    "end": "\">\"",
+                    "patterns": [
+                        {
+                            "include": "#formatted"
+                        }
+                    ]
+                }
+            ]
+        },
+        "do": {
+            "patterns": [
+                {
+                    "name": "keyword.control.parts.do",
+                    "match": "\\b(do)\\b"
+                }
+            ]
+        },
+        "strings": {
+            "name": "string.quoted.double.tuc",
+            "begin": "\"",
+            "end": "\"",
+            "patterns": [
+                {
+                    "include": "#formatted"
+                }
+            ]
+        }
+    },
+    "scopeName": "source.tuc"
 }
