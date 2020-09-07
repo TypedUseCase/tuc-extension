@@ -1,29 +1,15 @@
 TypedUseCase - .tuc
 ===================
 
-This is the README for your extension "tuc". After writing up a brief description, we recommend including the following sections.
+> VS Code Extension for supporting a TUC language.
 
-## Features
+## TUC
+> **T**yped **U**se-**C**ase
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+It is basically a use case definition, for which this console application can generate [PlantUML](https://plantuml.com/) diagram, where all services are domain specific type safe.
 
-For example if there is an image subfolder under your extension project workspace:
+For more information, go check [tuc-console](https://github.com/MortalFlesh/tuc-console) or [documentation](mortalflesh.github.io/tuc-console/).
 
-\!\[feature X\]\(images/feature-x.png\)
+## Syntax Highlighting
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+For now, the only thing it does is a syntax highlighting for keywords, some participants and most common errors.
