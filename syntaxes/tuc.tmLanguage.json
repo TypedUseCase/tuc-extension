@@ -6,13 +6,13 @@
             "include": "#comments"
         },
         {
-            "include": "#tuc-name"
+            "include": "#tuc.name"
         },
         {
-            "include": "#participants"
+            "include": "#tuc.participants"
         },
         {
-            "include": "#parts"
+            "include": "#tuc.parts"
         },
         {
             "include": "#operators"
@@ -30,7 +30,7 @@
                 }
             ]
         },
-        "tuc-name": {
+        "tuc.name": {
             "patterns": [
                 {
                     "name": "invalid.tuc.name.indented",
@@ -71,69 +71,366 @@
                 }
             ]
         },
-        "participants": {
+        "tuc.participants": {
             "patterns": [
                 {
-                    "name": "invalid.tuc.participants.indented",
-                    "begin": "^.+participants",
-                    "end": "$|\\n",
+                    "name": "invalid.participants",
                     "patterns": [
                         {
-                            "include": "#comments"
-                        },
-                        {
-                            "name": "invalid.participants",
-                            "match": ".+?"
+                            "name": "invalid.participants.indented",
+                            "begin": "^.+participants",
+                            "end": "$|\\n",
+                            "patterns": [
+                                {
+                                    "include": "#comments"
+                                },
+                                {
+                                    "name": "invalid.participants",
+                                    "match": ".+?"
+                                }
+                            ]
                         }
                     ]
                 },
                 {
-                    "name": "tuc.participants",
-                    "begin": "^participants",
-                    "end": "$|\\n",
-                    "beginCaptures": {
-                        "0": {
-                            "name": "entity.name.type.participants"
-                        }
-                    },
                     "patterns": [
                         {
-                            "include": "#comments"
-                        },
-                        {
-                            "name": "invalid.participants",
-                            "match": ".+?"
-                        }
-                    ]
-                },
-                {
-                    "name": "keyword.participant.alias",
-                    "match": "\\b(as)\\b"
-                },
-                {
-                    "name": "variable.dataObjects.common",
-                    "begin": "\\[",
-                    "end": "\\]",
-                    "beginCaptures": {
-                        "0": {
-                            "name": "variable.language.dataObjects.common.open"
-                        }
-                    },
-                    "endCaptures": {
-                        "0": {
-                            "name": "variable.language.dataObjects.common.close"
-                        }
-                    },
-                    "patterns": [
-                        {
-                            "name": "emphasis.dataObjects.stream",
-                            "match": "\\[.+Stream\\]"
+                            "begin": "^(participants)",
+                            "beginCaptures": {
+                                "1": {
+                                    "name": "entity.name.class.participants"
+                                }
+                            },
+                            "end": "^(?!\\s)",
+                            "patterns": [
+                                {
+                                    "include": "#comments"
+                                },
+                                {
+                                    "name": "participant.data-object.stream.with-alias",
+                                    "begin": "^\\s+(\\[)(\\w+Stream)(\\]) (\\w+) (as \".+?\")",
+                                    "beginCaptures": {
+                                        "1": {
+                                            "name": "variable.language.data-object.stream.open"
+                                        },
+                                        "2": {
+                                            "name": "entity.other.attribute-name.participant.name",
+                                            "patterns": [
+                                                {
+                                                    "name": "emphasis",
+                                                    "match": ".*"
+                                                }
+                                            ]
+                                        },
+                                        "3": {
+                                            "name": "variable.language.data-object.stream.close"
+                                        },
+                                        "4": {
+                                            "name": "entity.name.function.participant.domain"
+                                        },
+                                        "5": {
+                                            "name": "entity.name.tag.alias",
+                                            "patterns": [
+                                                {
+                                                    "include": "#strings"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "end": "\\s*$",
+                                    "patterns": [
+                                        {
+                                            "include": "#comments"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "participant.data-object.stream.no-domain.with-alias",
+                                    "begin": "^\\s+(\\[)(\\w+Stream)(\\]) (as \".+?\")",
+                                    "beginCaptures": {
+                                        "1": {
+                                            "name": "variable.language.data-object.stream.open"
+                                        },
+                                        "2": {
+                                            "name": "entity.other.attribute-name.participant.name",
+                                            "patterns": [
+                                                {
+                                                    "name": "emphasis",
+                                                    "match": ".*"
+                                                }
+                                            ]
+                                        },
+                                        "3": {
+                                            "name": "variable.language.data-object.stream.close"
+                                        },
+                                        "4": {
+                                            "name": "entity.name.tag.alias",
+                                            "patterns": [
+                                                {
+                                                    "include": "#strings"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "end": "\\s*$",
+                                    "patterns": [
+                                        {
+                                            "include": "#comments"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "participant.data-object.stream",
+                                    "begin": "^\\s+(\\[)(\\w+Stream)(\\]) (\\w+)",
+                                    "beginCaptures": {
+                                        "1": {
+                                            "name": "variable.language.data-object.stream.open"
+                                        },
+                                        "2": {
+                                            "name": "entity.other.attribute-name.participant.name",
+                                            "patterns": [
+                                                {
+                                                    "name": "emphasis.stream.name",
+                                                    "match": ".*"
+                                                }
+                                            ]
+                                        },
+                                        "3": {
+                                            "name": "variable.language.data-object.stream.close"
+                                        },
+                                        "4": {
+                                            "name": "entity.name.function.participant.domain"
+                                        }
+                                    },
+                                    "end": "\\s*$",
+                                    "patterns": [
+                                        {
+                                            "include": "#comments"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "participant.data-object.no-domain.stream",
+                                    "begin": "^\\s+(\\[)(\\w+Stream)(\\]) (\\w+)",
+                                    "beginCaptures": {
+                                        "1": {
+                                            "name": "variable.language.data-object.stream.open"
+                                        },
+                                        "2": {
+                                            "name": "entity.other.attribute-name.participant.name",
+                                            "patterns": [
+                                                {
+                                                    "name": "emphasis.stream.name",
+                                                    "match": ".*"
+                                                }
+                                            ]
+                                        },
+                                        "3": {
+                                            "name": "variable.language.data-object.stream.close"
+                                        }
+                                    },
+                                    "end": "\\s*$",
+                                    "patterns": [
+                                        {
+                                            "include": "#comments"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "participant.data-object.with-alias",
+                                    "begin": "^\\s+(\\[)(\\w+)(\\]) (\\w+) (as \".+?\")",
+                                    "beginCaptures": {
+                                        "1": {
+                                            "name": "variable.language.data-object.open"
+                                        },
+                                        "2": {
+                                            "name": "entity.other.attribute-name.participant.name"
+                                        },
+                                        "3": {
+                                            "name": "variable.language.data-object.close"
+                                        },
+                                        "4": {
+                                            "name": "entity.name.function.domain"
+                                        },
+                                        "5": {
+                                            "name": "entity.name.tag.alias",
+                                            "patterns": [
+                                                {
+                                                    "include": "#strings"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "end": "\\s*$",
+                                    "patterns": [
+                                        {
+                                            "include": "#comments"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "participant.data-object.no-domain.with-alias",
+                                    "begin": "^\\s+(\\[)(\\w+)(\\]) (as \".+?\")",
+                                    "beginCaptures": {
+                                        "1": {
+                                            "name": "variable.language.data-object.open"
+                                        },
+                                        "2": {
+                                            "name": "entity.other.attribute-name.participant.name"
+                                        },
+                                        "3": {
+                                            "name": "variable.language.data-object.close"
+                                        },
+                                        "4": {
+                                            "name": "entity.name.tag.alias",
+                                            "patterns": [
+                                                {
+                                                    "include": "#strings"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "end": "\\s*$",
+                                    "patterns": [
+                                        {
+                                            "include": "#comments"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "participant.data-object",
+                                    "begin": "^\\s+(\\[)(\\w+)(\\]) (\\w+)",
+                                    "beginCaptures": {
+                                        "1": {
+                                            "name": "variable.language.data-object.open"
+                                        },
+                                        "2": {
+                                            "name": "entity.other.attribute-name.participant.name"
+                                        },
+                                        "3": {
+                                            "name": "variable.language.data-object.close"
+                                        },
+                                        "4": {
+                                            "name": "entity.name.function.domain"
+                                        }
+                                    },
+                                    "end": "\\s*$",
+                                    "patterns": [
+                                        {
+                                            "include": "#comments"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "participant.data-object.no-domain",
+                                    "begin": "^\\s+(\\[)(\\w+)(\\])",
+                                    "beginCaptures": {
+                                        "1": {
+                                            "name": "variable.language.data-object.open"
+                                        },
+                                        "2": {
+                                            "name": "entity.other.attribute-name.participant.name"
+                                        },
+                                        "3": {
+                                            "name": "variable.language.data-object.close"
+                                        }
+                                    },
+                                    "end": "\\s*$",
+                                    "patterns": [
+                                        {
+                                            "include": "#comments"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "participant.with-alias",
+                                    "begin": "^\\s+(\\w+) (\\w+) (as \".+?\")",
+                                    "beginCaptures": {
+                                        "1": {
+                                            "name": "entity.other.attribute-name.participant.name"
+                                        },
+                                        "2": {
+                                            "name": "entity.name.function.domain"
+                                        },
+                                        "3": {
+                                            "name": "entity.name.tag.alias",
+                                            "patterns": [
+                                                {
+                                                    "include": "#strings"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "end": "\\s*$",
+                                    "patterns": [
+                                        {
+                                            "include": "#comments"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "participant.no-domain.with-alias",
+                                    "begin": "^\\s+(\\w+) (as \".+?\")",
+                                    "beginCaptures": {
+                                        "1": {
+                                            "name": "entity.other.attribute-name.participant.name"
+                                        },
+                                        "2": {
+                                            "name": "entity.name.tag.alias",
+                                            "patterns": [
+                                                {
+                                                    "include": "#strings"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "end": "\\s*$",
+                                    "patterns": [
+                                        {
+                                            "include": "#comments"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "participant",
+                                    "begin": "^\\s+(\\w+) (\\w+)",
+                                    "beginCaptures": {
+                                        "1": {
+                                            "name": "entity.other.attribute-name.participant.name"
+                                        },
+                                        "2": {
+                                            "name": "entity.name.function.domain"
+                                        }
+                                    },
+                                    "end": "\\s*$",
+                                    "patterns": [
+                                        {
+                                            "include": "#comments"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "participant.no-domain",
+                                    "begin": "^\\s+(\\w+)",
+                                    "beginCaptures": {
+                                        "1": {
+                                            "name": "entity.other.attribute-name.participant.name"
+                                        }
+                                    },
+                                    "end": "\\s*$",
+                                    "patterns": [
+                                        {
+                                            "include": "#comments"
+                                        }
+                                    ]
+                                }
+                            ]
                         }
                     ]
                 }
             ]
         },
-        "parts": {
+        "tuc.parts": {
             "patterns": [
                 {
                     "include": "#section"
