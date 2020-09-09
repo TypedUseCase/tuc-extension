@@ -16,9 +16,6 @@
         },
         {
             "include": "#operators"
-        },
-        {
-            "include": "#strings"
         }
     ],
     "repository": {
@@ -654,6 +651,72 @@
                     "patterns": [
                         {
                             "include": "#formatted"
+                        }
+                    ]
+                },
+                {
+                    "name": "string.quoted.double.one-line-note.left",
+                    "begin": "(\")(<)",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "note.one-line.start"
+                        },
+                        "2": {
+                            "name": "constant.character.one-line.left.start"
+                        }
+                    },
+                    "end": "(\")",
+                    "endCaptures": {
+                        "1": {
+                            "name": "note.one-line.end"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#strings"
+                        }
+                    ]
+                },
+                {
+                    "name": "string.quoted.double.one-line-note.right",
+                    "begin": "(\")(>)",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "note.one-line.start"
+                        },
+                        "2": {
+                            "name": "constant.character.one-line.right.start"
+                        }
+                    },
+                    "end": "(\")",
+                    "endCaptures": {
+                        "1": {
+                            "name": "note.one-line.end"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#strings"
+                        }
+                    ]
+                },
+                {
+                    "name": "string.quoted.double.one-line-note",
+                    "begin": "(\")",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "note.one-line.start"
+                        }
+                    },
+                    "end": "(\")",
+                    "endCaptures": {
+                        "1": {
+                            "name": "note.one-line.end"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#strings"
                         }
                     ]
                 }
