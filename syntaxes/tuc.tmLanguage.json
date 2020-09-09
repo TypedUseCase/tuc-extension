@@ -123,7 +123,7 @@
                                             "name": "variable.language.data-object.stream.close"
                                         },
                                         "4": {
-                                            "name": "entity.name.function.participant.domain"
+                                            "name": "keyword.other.unit.participant.domain"
                                         },
                                         "5": {
                                             "name": "entity.name.tag.alias",
@@ -196,7 +196,7 @@
                                             "name": "variable.language.data-object.stream.close"
                                         },
                                         "4": {
-                                            "name": "entity.name.function.participant.domain"
+                                            "name": "keyword.other.unit.participant.domain"
                                         }
                                     },
                                     "end": "\\s*$",
@@ -247,7 +247,7 @@
                                             "name": "variable.language.data-object.close"
                                         },
                                         "4": {
-                                            "name": "entity.name.function.domain"
+                                            "name": "keyword.other.unit.participant.domain"
                                         },
                                         "5": {
                                             "name": "entity.name.tag.alias",
@@ -308,7 +308,7 @@
                                             "name": "variable.language.data-object.close"
                                         },
                                         "4": {
-                                            "name": "entity.name.function.domain"
+                                            "name": "keyword.other.unit.participant.domain"
                                         }
                                     },
                                     "end": "\\s*$",
@@ -347,7 +347,7 @@
                                             "name": "entity.other.attribute-name.participant.name"
                                         },
                                         "2": {
-                                            "name": "entity.name.function.domain"
+                                            "name": "keyword.other.unit.participant.domain"
                                         },
                                         "3": {
                                             "name": "entity.name.tag.alias",
@@ -396,7 +396,7 @@
                                             "name": "entity.other.attribute-name.participant.name"
                                         },
                                         "2": {
-                                            "name": "entity.name.function.domain"
+                                            "name": "keyword.other.unit.participant.domain"
                                         }
                                     },
                                     "end": "\\s*$",
@@ -430,26 +430,29 @@
         "tuc.parts": {
             "patterns": [
                 {
-                    "include": "#section"
+                    "include": "#parts.section"
                 },
                 {
-                    "include": "#group"
+                    "include": "#parts.group"
                 },
                 {
-                    "include": "#loop"
+                    "include": "#parts.loop"
                 },
                 {
-                    "include": "#if-else"
+                    "include": "#parts.if-else"
                 },
                 {
-                    "include": "#notes"
+                    "include": "#parts.notes"
                 },
                 {
-                    "include": "#do"
+                    "include": "#parts.do"
+                },
+                {
+                    "include": "#parts.calls"
                 }
             ]
         },
-        "section": {
+        "parts.section": {
             "patterns": [
                 {
                     "name": "invalid.section.indented",
@@ -490,7 +493,7 @@
                 }
             ]
         },
-        "group": {
+        "parts.group": {
             "patterns": [
                 {
                     "name": "invalid.group.empty",
@@ -517,7 +520,7 @@
                 }
             ]
         },
-        "loop": {
+        "parts.loop": {
             "patterns": [
                 {
                     "name": "invalid.loop.empty",
@@ -544,7 +547,7 @@
                 }
             ]
         },
-        "if-else": {
+        "parts.if-else": {
             "patterns": [
                 {
                     "name": "invalid.if.empty",
@@ -595,10 +598,6 @@
                 {
                     "name": "keyword.operator.new.read-write",
                     "match": " -> "
-                },
-                {
-                    "name": "keyword.operator.new.dot",
-                    "match": "\\."
                 }
             ]
         },
@@ -682,7 +681,7 @@
                 }
             ]
         },
-        "notes": {
+        "parts.notes": {
             "patterns": [
                 {
                     "name": "string.quoted.triple.multi-line-note",
@@ -782,11 +781,36 @@
                 }
             ]
         },
-        "do": {
+        "parts.do": {
             "patterns": [
                 {
                     "name": "keyword.control.parts.do",
                     "match": "\\b(do)\\b"
+                }
+            ]
+        },
+        "parts.calls": {
+            "patterns": [
+                {
+                    "name": "participant.service.call.method-or-handler",
+                    "begin": "^\\s+(\\w+)(\\.)(\\w+)",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "entity.other.attribute-name.participant.name"
+                        },
+                        "2": {
+                            "name": "keyword.operator.new.dot.call"
+                        },
+                        "3": {
+                            "name": "entity.name.function.method-or-handler"
+                        }
+                    },
+                    "end": "$",
+                    "patterns": [
+                        {
+                            "include": "#comments"
+                        }
+                    ]
                 }
             ]
         },
