@@ -619,6 +619,66 @@
                 {
                     "name": "markup.underline.waved",
                     "match": "~{2}.+?~{2}"
+                },
+                {
+                    "name": "variable.link",
+                    "begin": "(\\[{2})",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "constant.character.link.start"
+                        }
+                    },
+                    "end": "(\\]{2})",
+                    "endCaptures": {
+                        "1": {
+                            "name": "constant.character.link.end"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "name": "link.only-tooltip",
+                            "begin": "(\\{)([^\\}]*)",
+                            "beginCaptures": {
+                                "1": {
+                                    "name": "constant.character.tooltip.start"
+                                },
+                                "2": {
+                                    "name": "string.link.tooltip.value"
+                                }
+                            },
+                            "end": "(\\})",
+                            "endCaptures": {
+                                "1": {
+                                    "name": "constant.character.tooltip.end"
+                                }
+                            }
+                        },
+                        {
+                            "name": "link.with-tooltip",
+                            "begin": "(.+?) (\\{)([^\\}]*)",
+                            "beginCaptures": {
+                                "1": {
+                                    "name": "markup.underline.link.value"
+                                },
+                                "2": {
+                                    "name": "constant.character.tooltip.start"
+                                },
+                                "3": {
+                                    "name": "string.link.tooltip.value"
+                                }
+                            },
+                            "end": "(\\})",
+                            "endCaptures": {
+                                "1": {
+                                    "name": "constant.character.tooltip.end"
+                                }
+                            }
+                        },
+                        {
+                            "name": "markup.underline.link.value",
+                            "match": ".+?"
+                        }
+                    ]
                 }
             ]
         },
@@ -673,7 +733,7 @@
                     },
                     "patterns": [
                         {
-                            "include": "#strings"
+                            "include": "#formatted"
                         }
                     ]
                 },
@@ -696,7 +756,7 @@
                     },
                     "patterns": [
                         {
-                            "include": "#strings"
+                            "include": "#formatted"
                         }
                     ]
                 },
@@ -716,7 +776,7 @@
                     },
                     "patterns": [
                         {
-                            "include": "#strings"
+                            "include": "#formatted"
                         }
                     ]
                 }
