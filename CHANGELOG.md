@@ -2,6 +2,8 @@
 
 <!-- There is always Unreleased section on the top. Subsections (Add, Changed, Fix, Removed) should be Add as needed. -->
 ## Unreleased
+
+## 0.2.0 - 2020-09-10
 - Parse whole `participants` section
 - Mark one-line notes with start/end and mark left/right sign
 - Add more surrounding chars
