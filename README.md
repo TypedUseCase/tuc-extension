@@ -2,6 +2,7 @@ TypedUseCase - .tuc
 ===================
 
 [![vscode-extension](https://img.shields.io/badge/vscode-extension-blue.svg)](https://marketplace.visualstudio.com/items?itemName=MortalFlesh.tuc)
+[![tuc-docs](https://img.shields.io/badge/documentation-tuc-orange.svg)](https://mortalflesh.github.io/tuc-console/)
 
 > VS Code Extension for supporting a TUC language.
 
