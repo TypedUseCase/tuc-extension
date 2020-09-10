@@ -7,6 +7,7 @@
 - Add more surrounding chars
 - Format links and tooltips in notes
 - Highlight method and handler calls
+- Highlight read/write data
 
 ## 0.1.0 - 2020-09-07
 - Initial release

@@ -13,9 +13,6 @@
         },
         {
             "include": "#tuc.parts"
-        },
-        {
-            "include": "#operators"
         }
     ],
     "repository": {
@@ -448,6 +445,12 @@
                     "include": "#parts.do"
                 },
                 {
+                    "include": "#parts.data-objects.read"
+                },
+                {
+                    "include": "#parts.data-objects.write"
+                },
+                {
                     "include": "#parts.calls"
                 }
             ]
@@ -590,14 +593,6 @@
                             "match": ".+?"
                         }
                     ]
-                }
-            ]
-        },
-        "operators": {
-            "patterns": [
-                {
-                    "name": "keyword.operator.new.read-write",
-                    "match": " -> "
                 }
             ]
         },
@@ -786,6 +781,174 @@
                 {
                     "name": "keyword.control.parts.do",
                     "match": "\\b(do)\\b"
+                }
+            ]
+        },
+        "parts.data-objects.read": {
+            "patterns": [
+                {
+                    "name": "participant.data-object.stream.read",
+                    "begin": "^\\s+(\\[)(\\w+Stream)(\\]) (->) ([\\w+\\.?]+)",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "variable.language.data-object.stream.open"
+                        },
+                        "2": {
+                            "name": "entity.other.attribute-name.participant.name",
+                            "patterns": [
+                                {
+                                    "name": "emphasis",
+                                    "match": ".*"
+                                }
+                            ]
+                        },
+                        "3": {
+                            "name": "variable.language.data-object.stream.close"
+                        },
+                        "4": {
+                            "name": "keyword.operator.new.read.data"
+                        },
+                        "5": {
+                            "name": "event.read",
+                            "patterns": [
+                                {
+                                    "name": "keyword.operator.new.dot.event",
+                                    "match": "\\."
+                                },
+                                {
+                                    "name": "variable.name.event",
+                                    "match": "\\w+"
+                                }
+                            ]
+                        }
+                    },
+                    "end": "$",
+                    "patterns": [
+                        {
+                            "include": "#comments"
+                        }
+                    ]
+                },
+                {
+                    "name": "participant.data-object.read",
+                    "begin": "^\\s+(\\[)(\\w+)(\\]) (->) ([\\w+\\.?]+)",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "variable.language.data-object.open"
+                        },
+                        "2": {
+                            "name": "entity.other.attribute-name.participant.name"
+                        },
+                        "3": {
+                            "name": "variable.language.data-object.close"
+                        },
+                        "4": {
+                            "name": "keyword.operator.new.read.data"
+                        },
+                        "5": {
+                            "name": "data.read",
+                            "patterns": [
+                                {
+                                    "name": "keyword.operator.new.dot.data",
+                                    "match": "\\."
+                                },
+                                {
+                                    "name": "variable.name.data",
+                                    "match": "\\w+"
+                                }
+                            ]
+                        }
+                    },
+                    "end": "$",
+                    "patterns": [
+                        {
+                            "include": "#comments"
+                        }
+                    ]
+                }
+            ]
+        },
+        "parts.data-objects.write": {
+            "patterns": [
+                {
+                    "name": "participant.data-object.stream.write",
+                    "begin": "^\\s+([\\w+\\.?]+) (->) (\\[)(\\w+Stream)(\\])",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "event.read",
+                            "patterns": [
+                                {
+                                    "name": "keyword.operator.new.dot.event",
+                                    "match": "\\."
+                                },
+                                {
+                                    "name": "variable.name.event",
+                                    "match": "\\w+"
+                                }
+                            ]
+                        },
+                        "2": {
+                            "name": "keyword.operator.new.read.data"
+                        },
+                        "3": {
+                            "name": "variable.language.data-object.stream.open"
+                        },
+                        "4": {
+                            "name": "entity.other.attribute-name.participant.name",
+                            "patterns": [
+                                {
+                                    "name": "emphasis",
+                                    "match": ".*"
+                                }
+                            ]
+                        },
+                        "5": {
+                            "name": "variable.language.data-object.stream.close"
+                        }
+                    },
+                    "end": "$",
+                    "patterns": [
+                        {
+                            "include": "#comments"
+                        }
+                    ]
+                },
+                {
+                    "name": "participant.data-object.write",
+                    "begin": "^\\s+([\\w+\\.?]+) (->) (\\[)(\\w+)(\\])",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "data.read",
+                            "patterns": [
+                                {
+                                    "name": "keyword.operator.new.dot.data",
+                                    "match": "\\."
+                                },
+                                {
+                                    "name": "variable.name.data",
+                                    "match": "\\w+"
+                                }
+                            ]
+                        },
+                        "2": {
+                            "name": "keyword.operator.new.read.data"
+                        },
+                        "3": {
+                            "name": "variable.language.data-object.open"
+                        },
+                        "4": {
+                            "name": "entity.other.attribute-name.participant.name"
+                        },
+                        "5": {
+                            "name": "variable.language.data-object.close"
+                        }
+                    },
+                    "end": "$",
+                    "patterns": [
+                        {
+                            "include": "#comments"
+                        }
+                    ]
                 }
             ]
         },
