@@ -452,6 +452,9 @@
                 },
                 {
                     "include": "#parts.calls"
+                },
+                {
+                    "include": "#parts.lifeline"
                 }
             ]
         },
@@ -966,6 +969,25 @@
                         },
                         "3": {
                             "name": "entity.name.function.method-or-handler"
+                        }
+                    },
+                    "end": "$",
+                    "patterns": [
+                        {
+                            "include": "#comments"
+                        }
+                    ]
+                }
+            ]
+        },
+        "parts.lifeline": {
+            "patterns": [
+                {
+                    "name": "participant.service.lifeline",
+                    "begin": "^\\s*([A-Z]\\w+)",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "entity.other.attribute-name.participant.name"
                         }
                     },
                     "end": "$",
