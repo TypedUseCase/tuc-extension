@@ -455,6 +455,9 @@
                 },
                 {
                     "include": "#parts.lifeline"
+                },
+                {
+                    "include": "#parts.handle-stream"
                 }
             ]
         },
@@ -988,6 +991,37 @@
                     "beginCaptures": {
                         "1": {
                             "name": "entity.other.attribute-name.participant.name"
+                        }
+                    },
+                    "end": "$",
+                    "patterns": [
+                        {
+                            "include": "#comments"
+                        }
+                    ]
+                }
+            ]
+        },
+        "parts.handle-stream": {
+            "patterns": [
+                {
+                    "name": "participant.data-object.stream.handle",
+                    "begin": "^\\s*(\\[)(\\w+Stream)(\\])",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "variable.language.data-object.stream.open"
+                        },
+                        "2": {
+                            "name": "entity.other.attribute-name.participant.name",
+                            "patterns": [
+                                {
+                                    "name": "emphasis",
+                                    "match": ".*"
+                                }
+                            ]
+                        },
+                        "3": {
+                            "name": "variable.language.data-object.stream.close"
                         }
                     },
                     "end": "$",

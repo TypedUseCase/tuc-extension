@@ -9,6 +9,7 @@
 - Highlight method and handler calls
 - Highlight read/write data
 - Highlight caller in lifeline
+- Highlight stream for handle
 
 ## 0.1.0 - 2020-09-07
 - Initial release
