@@ -2,6 +2,7 @@
 
 <!-- There is always Unreleased section on the top. Subsections (Add, Changed, Fix, Removed) should be Add as needed. -->
 ## Unreleased
+- Add logo
 
 ## 0.2.0 - 2020-09-10
 - Parse whole `participants` section
