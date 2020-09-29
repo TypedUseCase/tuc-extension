@@ -2,6 +2,11 @@
 
 <!-- There is always Unreleased section on the top. Subsections (Add, Changed, Fix, Removed) should be Add as needed. -->
 ## Unreleased
+- Mark texts as strings
+    - `section` name
+    - `group` name
+    - `if` condition value
+    - `loop` condition value
 
 ## 0.3.0 - 2020-09-10
 - Add logo

@@ -495,7 +495,7 @@
                             "include": "#comments"
                         },
                         {
-                            "name": "entity.name.function.section",
+                            "name": "string.name.section",
                             "match": ".+?"
                         }
                     ]
@@ -522,7 +522,7 @@
                             "include": "#comments"
                         },
                         {
-                            "name": "entity.name.function.group",
+                            "name": "string.name.group",
                             "match": ".+?"
                         }
                     ]
@@ -549,7 +549,7 @@
                             "include": "#comments"
                         },
                         {
-                            "name": "variable.other.loop.condition",
+                            "name": "string.condition.loop",
                             "match": ".+?"
                         }
                     ]
@@ -576,7 +576,7 @@
                             "include": "#comments"
                         },
                         {
-                            "name": "variable.other.if.condition",
+                            "name": "string.condition.if",
                             "match": ".+?"
                         }
                     ]
