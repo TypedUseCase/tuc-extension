@@ -8,6 +8,7 @@
     - `if` condition value
     - `loop` condition value
 - Mark `tuc name` as `key.word.other`
+- Underline `tuc name`
 
 ## 0.3.0 - 2020-09-10
 - Add logo

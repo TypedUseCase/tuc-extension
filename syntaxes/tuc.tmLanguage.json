@@ -46,11 +46,17 @@
                 },
                 {
                     "name": "tuc.name",
-                    "begin": "^tuc",
+                    "begin": "^tuc ",
                     "end": "$|\\n",
                     "beginCaptures": {
                         "0": {
-                            "name": "entity.name.type.tuc.name"
+                            "name": "entity.name.type.tuc.name",
+                            "patterns": [
+                                {
+                                    "name": "markup.underline.tuc.name",
+                                    "match": "tuc"
+                                }
+                            ]
                         }
                     },
                     "patterns": [
@@ -58,8 +64,20 @@
                             "include": "#comments"
                         },
                         {
-                            "name": "keyword.other.unit.tuc.name",
-                            "match": ".+?"
+                            "name": "tuc.name.value",
+                            "begin": ".*",
+                            "end": "$|\\n",
+                            "beginCaptures": {
+                                "0": {
+                                    "name": "keyword.other.unit.tuc.name",
+                                    "patterns": [
+                                        {
+                                            "name": "markup.underline.tuc.name",
+                                            "match": ".*"
+                                        }
+                                    ]
+                                }
+                            }
                         }
                     ]
                 }
