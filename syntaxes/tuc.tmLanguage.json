@@ -28,7 +28,7 @@
             "patterns": [
                 {
                     "name": "invalid.tuc.name.indented",
-                    "begin": "^.+tuc",
+                    "begin": "^\\s+tuc",
                     "end": "$|\\n",
                     "patterns": [
                         {
