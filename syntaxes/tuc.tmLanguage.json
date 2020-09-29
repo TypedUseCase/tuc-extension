@@ -58,7 +58,7 @@
                             "include": "#comments"
                         },
                         {
-                            "name": "entity.name.function.tuc.name",
+                            "name": "keyword.other.unit.tuc.name",
                             "match": ".+?"
                         }
                     ]
