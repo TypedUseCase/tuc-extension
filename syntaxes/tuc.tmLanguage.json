@@ -107,9 +107,9 @@
                 {
                     "patterns": [
                         {
-                            "begin": "^(participants)",
+                            "begin": "^participants",
                             "beginCaptures": {
-                                "1": {
+                                "0": {
                                     "name": "entity.name.class.participants"
                                 }
                             },
