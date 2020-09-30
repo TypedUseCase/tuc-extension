@@ -10,6 +10,7 @@
 - Mark `tuc name` as `key.word.other`
 - Underline `tuc name`
 - Fix `tuc name` with `tuc` word, which is wrongly marked as invalid
+- Fix `link` syntax highlighting in strings
 
 ## 0.3.0 - 2020-09-10
 - Add logo

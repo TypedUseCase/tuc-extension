@@ -639,64 +639,109 @@
                     "match": "~{2}.+?~{2}"
                 },
                 {
-                    "name": "variable.link",
-                    "begin": "(\\[{2})",
-                    "beginCaptures": {
+                    "name": "variable.link.with-tooltip-and-label",
+                    "match": "(\\[{2})(.*?)\\s*(\\{)(.*?)(\\})\\s*([^\\{\\n\\r]+?)(\\]{2})",
+                    "captures": {
                         "1": {
                             "name": "constant.character.link.start"
-                        }
-                    },
-                    "end": "(\\]{2})",
-                    "endCaptures": {
-                        "1": {
+                        },
+                        "2": {
+                            "name": "markup.underline.link.value"
+                        },
+                        "3": {
+                            "name": "constant.character.tooltip.start"
+                        },
+                        "4": {
+                            "name": "string.link.tooltip.value"
+                        },
+                        "5": {
+                            "name": "constant.character.tooltip.end"
+                        },
+                        "6": {
+                            "name": "emphasis.label.name"
+                        },
+                        "7": {
                             "name": "constant.character.link.end"
                         }
-                    },
-                    "patterns": [
-                        {
-                            "name": "link.only-tooltip",
-                            "begin": "(\\{)([^\\}]*)",
-                            "beginCaptures": {
-                                "1": {
-                                    "name": "constant.character.tooltip.start"
-                                },
-                                "2": {
-                                    "name": "string.link.tooltip.value"
-                                }
-                            },
-                            "end": "(\\})",
-                            "endCaptures": {
-                                "1": {
-                                    "name": "constant.character.tooltip.end"
-                                }
-                            }
+                    }
+                },
+                {
+                    "name": "variable.link.tooltip-only",
+                    "match": "(\\[{2})(\\{)(.*?)(\\})\\s*(\\]{2})",
+                    "captures": {
+                        "1": {
+                            "name": "constant.character.link.start"
                         },
-                        {
-                            "name": "link.with-tooltip",
-                            "begin": "(.+?) (\\{)([^\\}]*)",
-                            "beginCaptures": {
-                                "1": {
-                                    "name": "markup.underline.link.value"
-                                },
-                                "2": {
-                                    "name": "constant.character.tooltip.start"
-                                },
-                                "3": {
-                                    "name": "string.link.tooltip.value"
-                                }
-                            },
-                            "end": "(\\})",
-                            "endCaptures": {
-                                "1": {
-                                    "name": "constant.character.tooltip.end"
-                                }
-                            }
+                        "2": {
+                            "name": "constant.character.tooltip.start"
                         },
-                        {
-                            "name": "markup.underline.link.value",
-                            "match": ".+?"
+                        "3": {
+                            "name": "string.link.tooltip.value"
+                        },
+                        "4": {
+                            "name": "constant.character.tooltip.end"
+                        },
+                        "5": {
+                            "name": "constant.character.link.end"
                         }
-                    ]
+                    }
+                },
+                {
+                    "name": "variable.link.with-label",
+                    "match": "(\\[{2})(.*?)\\s+?([^\\{\\n\\r]+?)(\\]{2})",
+                    "captures": {
+                        "1": {
+                            "name": "constant.character.link.start"
+                        },
+                        "2": {
+                            "name": "markup.underline.link.value"
+                        },
+                        "3": {
+                            "name": "emphasis.label.name"
+                        },
+                        "4": {
+                            "name": "constant.character.link.end"
+                        }
+                    }
+                },
+                {
+                    "name": "variable.link.with-tooltip",
+                    "match": "(\\[{2})(.*?)\\s*(\\{)(.*?)(\\})\\s*(\\]{2})",
+                    "captures": {
+                        "1": {
+                            "name": "constant.character.link.start"
+                        },
+                        "2": {
+                            "name": "markup.underline.link.value"
+                        },
+                        "3": {
+                            "name": "constant.character.tooltip.start"
+                        },
+                        "4": {
+                            "name": "string.link.tooltip.value"
+                        },
+                        "5": {
+                            "name": "constant.character.tooltip.end"
+                        },
+                        "6": {
+                            "name": "constant.character.link.end"
+                        }
+                    }
+                },
+                {
+                    "name": "variable.link",
+                    "match": "(\\[{2})(.+?)\\s*(\\]{2})",
+                    "captures": {
+                        "1": {
+                            "name": "constant.character.link.start"
+                        },
+                        "2": {
+                            "name": "markup.underline.link.value"
+                        },
+                        "3": {
+                            "name": "constant.character.link.end"
+                        }
+                    }
                 }
             ]
         },
