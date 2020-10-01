@@ -745,6 +745,14 @@
                 }
             ]
         },
+        "escaped": {
+            "patterns": [
+                {
+                    "name": "constant.character.escape",
+                    "match": "\\\\."
+                }
+            ]
+        },
         "parts.notes": {
             "patterns": [
                 {
@@ -754,6 +762,9 @@
                     "patterns": [
                         {
                             "include": "#formatted"
+                        },
+                        {
+                            "include": "#escaped"
                         }
                     ]
                 },
@@ -764,6 +775,9 @@
                     "patterns": [
                         {
                             "include": "#formatted"
+                        },
+                        {
+                            "include": "#escaped"
                         }
                     ]
                 },
@@ -774,6 +788,9 @@
                     "patterns": [
                         {
                             "include": "#formatted"
+                        },
+                        {
+                            "include": "#escaped"
                         }
                     ]
                 },
@@ -797,6 +814,9 @@
                     "patterns": [
                         {
                             "include": "#formatted"
+                        },
+                        {
+                            "include": "#escaped"
                         }
                     ]
                 },
@@ -820,6 +840,9 @@
                     "patterns": [
                         {
                             "include": "#formatted"
+                        },
+                        {
+                            "include": "#escaped"
                         }
                     ]
                 },
@@ -840,6 +863,9 @@
                     "patterns": [
                         {
                             "include": "#formatted"
+                        },
+                        {
+                            "include": "#escaped"
                         }
                     ]
                 }
@@ -1103,6 +1129,9 @@
             "patterns": [
                 {
                     "include": "#formatted"
+                },
+                {
+                    "include": "#escaped"
                 }
             ]
         }

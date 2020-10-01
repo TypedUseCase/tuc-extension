@@ -2,6 +2,7 @@
 
 <!-- There is always Unreleased section on the top. Subsections (Add, Changed, Fix, Removed) should be Add as needed. -->
 ## Unreleased
+- Mark escaped characters in string
 
 ## 1.0.0 - 2020-10-01
 - Mark texts as strings
