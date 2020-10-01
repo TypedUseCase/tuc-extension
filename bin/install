@@ -3,3 +3,5 @@
 set -e
 
 npm i -g vsce tsc
+
+npm install
