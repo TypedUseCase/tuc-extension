@@ -2,6 +2,7 @@
 
 <!-- There is always Unreleased section on the top. Subsections (Add, Changed, Fix, Removed) should be Add as needed. -->
 ## Unreleased
+- Add code completion for tuc keywords
 
 ## 1.1.0 - 2020-10-01
 - Mark escaped characters in string
