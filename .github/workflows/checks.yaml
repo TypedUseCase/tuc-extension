@@ -1,0 +1,34 @@
+name: Checks
+
+on:
+    push:
+    pull_request:
+    schedule:
+        - cron: "0 3 * * *"
+
+jobs:
+    markdown-link-check: # https://github.com/gaurav-nelson/github-action-markdown-link-check
+        name: "Markdown link check"
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - uses: gaurav-nelson/github-action-markdown-link-check@v1
+              with:
+                  use-verbose-mode: "yes"
+
+    shellcheck: # https://github.com/marketplace/actions/shellcheck
+        name: Shellcheck
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Run ShellCheck
+              uses: ludeeus/action-shellcheck@master
+
+    eslint:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Install modules
+              run: npm install
+            - name: Run ESLint
+              run: npm run lint

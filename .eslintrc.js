@@ -9,6 +9,7 @@ module.exports = {
 	extends: [
 		'eslint:recommended',
 		'plugin:@typescript-eslint/recommended',
+		"plugin:json/recommended",
 	],
 	rules: {
 		'semi': [2, "always"],
@@ -16,5 +17,6 @@ module.exports = {
 		'@typescript-eslint/no-explicit-any': 0,
 		'@typescript-eslint/explicit-module-boundary-types': 0,
 		'@typescript-eslint/no-non-null-assertion': 0,
+		"json/*": ["error", "allowComments"],
 	}
 };
