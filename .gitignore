@@ -1,3 +1,33 @@
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]eleases/
+x64/
+x86/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+AssemblyInfo.fs
+
+# Paket dependency manager
+.paket/
+packages/
+paket-files/
+
+# Ionide
+.ionide/
+
+# FAKE - F# Make
+.fake/
+
+# Release
+release/bin
+release/bin_ff
+release/bin_forge
+release/bin_profiler
+
+# Application
 node_modules
 bin/releaseTag
 

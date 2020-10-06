@@ -1,58 +1,26 @@
 {
-    "name": "tuc",
-    "displayName": "tuc",
-    "description": "Typed-Use-Case - Use case definition, for which this console application can generate PlantUML diagram, where all services are domain specific type safe.",
-    "icon": "images/tuc-logo.png",
-    "version": "1.2.0",
-    "publisher": "TypedUseCase",
-    "repository": {
-        "url": "https://github.com/TypedUseCase/tuc-extension"
-    },
-    "engines": {
-        "vscode": "^1.48.0"
-    },
-    "categories": [
-        "Programming Languages"
-    ],
-    "contributes": {
-        "languages": [
-            {
-                "id": "tuc",
-                "aliases": [
-                    "TypedUseCase",
-                    "tuc"
-                ],
-                "extensions": [
-                    ".tuc"
-                ],
-                "configuration": "./language-configuration.json"
-            }
-        ],
-        "grammars": [
-            {
-                "language": "tuc",
-                "scopeName": "source.tuc",
-                "path": "./syntaxes/tuc.tmLanguage.json"
-            }
-        ]
-    },
-    "activationEvents": [
-        "*"
-    ],
-    "main": "./out/extension.js",
     "scripts": {
-        "vscode:prepublish": "npm run compile",
-        "compile": "tsc -p ./",
-        "lint": "eslint . --ext .ts,.tsx,.json",
-        "watch": "tsc -watch -p ./"
+        "build": "webpack"
     },
     "devDependencies": {
-        "@types/node": "^12.12.0",
-        "@types/vscode": "^1.32.0",
-        "@typescript-eslint/eslint-plugin": "^3.0.2",
-        "@typescript-eslint/parser": "^3.0.2",
-        "eslint": "^7.1.0",
+        "axios": "*",
+        "babel-core": "6.26.0",
+        "babel-loader": "7.1.2",
+        "babel-plugin-transform-runtime": "6.23.0",
+        "babel-preset-es2015": "6.24.1",
         "eslint-plugin-json": "^2.1.2",
-        "typescript": "^4.0.2"
+        "eslint": "^7.1.0",
+        "fable-compiler": "0.6.x",
+        "fable-loader": "1.0.7",
+        "fable-utils": "^1.0.2",
+        "mocha": "*",
+        "showdown": "^1.9.0",
+        "toml": "*",
+        "vscode-languageclient": "^6.1.3",
+        "vscode": "*",
+        "webpack-node-externals": "^1.6.0",
+        "webpack": "^3.5.5",
+        "ws": "^3.1.0",
+        "xhr2": "*"
     }
 }

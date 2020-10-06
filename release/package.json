@@ -1,0 +1,71 @@
+{
+    "name": "tuc",
+    "displayName": "tuc",
+    "description": "Typed-Use-Case - Use case definition, for which this console application can generate PlantUML diagram, where all services are domain specific type safe.",
+    "icon": "images/tuc-logo.png",
+    "version": "1.2.0",
+    "publisher": "MortalFlesh",
+    "homepage": "https://mortalflesh.github.io/tuc-console/",
+    "repository": {
+        "url": "https://github.com/MortalFlesh/tuc-extension"
+    },
+    "engines": {
+        "vscode": "^1.48.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [
+            {
+                "id": "tuc",
+                "aliases": [
+                    "TypedUseCase",
+                    "tuc"
+                ],
+                "extensions": [
+                    ".tuc"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "tuc",
+                "scopeName": "source.tuc",
+                "path": "./syntaxes/tuc.tmLanguage.json"
+            }
+        ]
+    },
+    "main": "./extension.js",
+    "activationEvents": [
+        "workspaceContains:**/*.tuc",
+        "onLanguage:tuc"
+    ],
+    "problemMatchers": [
+        {
+            "name": "fable-webpack",
+            "owner": "fsharp",
+            "fileLocation": "absolute",
+            "background": {
+                "activeOnStart": true,
+                "beginsPattern": {
+                    "regexp": "webpack: Compiling"
+                },
+                "endsPattern": {
+                    "regexp": "webpack: (Compiled successfully|Failed to compile)"
+                }
+            },
+            "pattern": {
+                "regexp": "(.*)\\((\\d+),(\\d+),(\\d+),(\\d+)\\)\\s*:\\s*(warning|error) FABLE\\s*:\\s*(.*)$",
+                "file": 1,
+                "line": 2,
+                "column": 3,
+                "endLine": 4,
+                "endColumn": 5,
+                "severity": 6,
+                "message": 7
+            }
+        }
+    ]
+}
