@@ -24,12 +24,19 @@ paket-files/
 # Release
 release/bin
 release/bin_ff
-release/bin_forge
+release/bin_netcore
 release/bin_profiler
+release/syntaxes
+release/templates
+release/schemas
 
 # Application
 node_modules
 bin/releaseTag
 
+*.js
+*.js.map
+
 out
 dist
+temp

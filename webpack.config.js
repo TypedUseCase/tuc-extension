@@ -18,7 +18,7 @@ console.log("Bundling for " + (isProduction ? "production" : "development") + ".
 
 module.exports = function (env) {
 
-  var outputPath = "out";
+  var outputPath = "release";
   console.log("Output path: " + outputPath);
 
   var compilerDefines = isProduction ? [] : ["DEBUG"];

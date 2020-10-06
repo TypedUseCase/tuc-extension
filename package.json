@@ -22,5 +22,8 @@
         "webpack": "^3.5.5",
         "ws": "^3.1.0",
         "xhr2": "*"
+    },
+    "dependencies": {
+        "htmlparser2": "^3.9.2"
     }
 }

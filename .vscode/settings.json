@@ -1,0 +1,24 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/.DS_Store": true,
+        "**/.fake": true
+    },
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/bower_components": true,
+        "**/packages": true,
+        "**/paket-files": true
+    },
+    "FSharp.excludeProjectDirectories": [
+        ".git",
+        "paket-files",
+        "release"
+    ],
+    "yaml.schemas": {
+        ".github/workflows": "https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/github-workflow.json"
+    }
+}

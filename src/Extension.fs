@@ -1,15 +1,14 @@
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module MF.Tuc.Extension
-//module Ionide.VSCode.FSharp
 
 open System
 open Fable.Core
 open Fable.Core.JsInterop
 open Fable.Import.vscode
 open Ionide.VSCode.Helpers
-open Ionide.VSCode.FSharp
+open MF.Tuc.Extension
 open Fable.Import.Node.ChildProcess
-open Debugger
+//open Debugger - ?
 open Fable.Import.vscode
 
 (* type Api =
@@ -19,7 +18,7 @@ open Fable.Import.vscode
       GetProjectLauncher : OutputChannel -> DTO.Project -> (string -> Fable.Import.JS.Promise<ChildProcess>) option
       DebugProject : DTO.Project -> string [] -> Fable.Import.JS.Promise<unit> } *)
 
-let activate (context : ExtensionContext) : Fable.Import.JS.Promise<Api> =
+let activate (context : ExtensionContext) = // : Fable.Import.JS.Promise<Api> =
 
     (* let resolve = "FSharp.resolveNamespaces" |> Configuration.get false
     let solutionExplorer = "FSharp.enableTreeView" |> Configuration.get true
@@ -29,7 +28,12 @@ let activate (context : ExtensionContext) : Fable.Import.JS.Promise<Api> =
 
     let init = DateTime.Now
 
-    printfn "Fable extension is activated at %A!" init
+    printfn "Fable extension is starting at %A!" init
+
+    LanguageService.start context
+    |> Promise.onSuccess (fun _ ->
+        printfn "LanguageServices started at %A ..." DateTime.Now
+    )
 
     (* LanguageService.start context
     |> Promise.onSuccess (fun _ ->

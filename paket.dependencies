@@ -11,7 +11,8 @@ git https://github.com/fsharp/FsAutoComplete.git master build:"build.cmd", OS: w
 git https://github.com/fsharp/FsAutoComplete.git master build:"build.sh", OS: linux
 git https://github.com/fsharp/FsAutoComplete.git master build:"build.sh", OS: osx
 
-github ionide/ionide-vscode-helpers src/Fable.Import.VSCode.fs
+#github ionide/ionide-vscode-helpers src/Fable.Import.VSCode.fs
+github MortalFlesh/ionide-vscode-helpers:feature/add-snippet-string src/Fable.Import.VSCode.fs
 github ionide/ionide-vscode-helpers src/Helpers.fs
 github ionide/ionide-vscode-helpers src/Fable.Import.Showdown.fs
 github ionide/ionide-vscode-helpers src/Fable.Import.VSCode.LanguageServer.fs

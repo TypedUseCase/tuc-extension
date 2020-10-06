@@ -17,14 +17,25 @@ open Fake.Core.TargetOperators
 open Fake.Tools.Git
 open Fake.Api
 
-// --------------------------------------------------------------------------------------
-// Configuration
-// --------------------------------------------------------------------------------------
+// ========================================================================================================
+// === F# / VS Code Extension fake build ========================================================== 1.0.0 =
+// --------------------------------------------------------------------------------------------------------
+// Options:
+// --------------------------------------------------------------------------------------------------------
+// Table of contents:
+//      1. Information about project, configuration
+//      2. Utilities, DotnetCore functions
+//      3. FAKE targets
+//      4. FAKE targets hierarchy
+// ========================================================================================================
 
+// --------------------------------------------------------------------------------------------------------
+// 1. Information about the project to be used at NuGet and in AssemblyInfo files and other FAKE configuration
+// --------------------------------------------------------------------------------------------------------
 
 // Git configuration (used for publishing documentation in gh-pages branch)
 // The profile where the project is posted
-let gitOwner = "MortalFlesh"
+let gitOwner = "TypedUseCase"
 let gitHome = "https://github.com/" + gitOwner
 
 // The name of the project on GitHub
@@ -33,15 +44,11 @@ let gitName = "tuc-extension"
 let fsacDir = "paket-files/github.com/fsharp/FsAutoComplete"
 
 // Read additional information from the release notes document
-let releaseNotesData =
-    File.ReadAllLines "CHANGELOG.md"
-    |> ReleaseNotes.parseAll
+let release = ReleaseNotes.parse (System.IO.File.ReadAllLines "CHANGELOG.md" |> Seq.filter ((<>) "## Unreleased"))
 
-let release = List.head releaseNotesData
-
-// --------------------------------------------------------------------------------------
-// Helper functions
-// --------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------
+// 2. Utilities, DotnetCore functions, etc.
+// --------------------------------------------------------------------------------------------------------
 
 let run cmd args dir =
     let parms = { ExecParams.Empty with Program = cmd; WorkingDir = dir; CommandLine = args }
@@ -76,33 +83,29 @@ let copyFSACNetcore releaseBinNetcore fsacBinNetcore =
     Shell.cleanDir releaseBinNetcore
     Shell.copyDir releaseBinNetcore fsacBinNetcore (fun _ -> true)
 
-let copyForge paketFilesForge releaseForge =
-    Directory.ensure releaseForge
-    Shell.cleanDir releaseForge
-    Shell.copyDir releaseForge (sprintf "%s/temp/" paketFilesForge) (fun _ -> true)
-
-let copyGrammar fsgrammarDir fsgrammarRelease =
-    Directory.ensure fsgrammarRelease
-    Shell.cleanDir fsgrammarRelease
-    Shell.copyFiles fsgrammarRelease [
-        fsgrammarDir </> "fsharp.fsi.json"
-        fsgrammarDir </> "fsharp.fsl.json"
-        fsgrammarDir </> "fsharp.fsx.json"
-        fsgrammarDir </> "fsharp.json"
+let copyGrammar grammarDir grammarRelease =
+    Directory.ensure grammarRelease
+    Shell.cleanDir grammarRelease
+    Shell.copyFiles grammarRelease [
+        grammarDir </> "tuc.tmLanguage.json"
     ]
 
 let copySchemas fsschemaDir fsschemaRelease =
     Directory.ensure fsschemaRelease
     Shell.cleanDir fsschemaRelease
-    Shell.copyFile fsschemaRelease (fsschemaDir </> "fableconfig.json")
-    Shell.copyFile fsschemaRelease (fsschemaDir </> "wsconfig.json")
+    Shell.copyFiles fsschemaRelease [
+        fsschemaDir </> "fableconfig.json"
+        fsschemaDir </> "wsconfig.json"
+    ]
 
-let copyLib libDir releaseDir =
+(* let copyLib libDir releaseDir =
     Directory.ensure releaseDir
     Shell.copyDir (releaseDir </> "x64") (libDir </> "x64") (fun _ -> true)
     Shell.copyDir (releaseDir </> "x86") (libDir </> "x86") (fun _ -> true)
-    Shell.copyFile releaseDir (libDir </> "libe_sqlite3.so")
-    Shell.copyFile releaseDir (libDir </> "libe_sqlite3.dylib")
+    Shell.copyFiles releaseDir [
+        libDir </> "libe_sqlite3.so"
+        libDir </> "libe_sqlite3.dylib"
+    ] *)
 
 let buildPackage dir =
     Process.killAllByName "vsce"
@@ -162,7 +165,7 @@ let releaseGithub (release: ReleaseNotes.ReleaseNotes) =
 
     Staging.stageAll ""
     ensureGitUser user email
-    Commit.exec "." (sprintf "Bump version to %s" release.NugetVersion)
+    Commit.exec "." (sprintf "Version %s" release.NugetVersion)
     Branches.pushBranch "" remote "master"
     Branches.tag "" release.NugetVersion
     Branches.pushTag "" remote release.NugetVersion
@@ -179,15 +182,16 @@ let releaseGithub (release: ReleaseNotes.ReleaseNotes) =
     |> GitHub.publishDraft//releaseDraft
     |> Async.RunSynchronously
 
-// --------------------------------------------------------------------------------------
-// Target definitions
-// --------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------
+// 3. Targets for FAKE
+// --------------------------------------------------------------------------------------------------------
+
 Target.initEnvironment ()
 
 Target.create "Clean" (fun _ ->
     Shell.cleanDir "./temp"
-    Shell.copyFiles "release" ["README.md"; "LICENSE.md"]
-    Shell.copyFile "release/CHANGELOG.md" "RELEASE_NOTES.md"
+    Shell.copyFiles "release" ["README.md"; "LICENSE"]
+    Shell.copyFile "release/CHANGELOG.md" "CHANGELOG.md"
 )
 
 Target.create "YarnInstall" <| fun _ ->
@@ -201,13 +205,13 @@ Target.create "Watch" (fun _ ->
 )
 
 Target.create "InstallVSCE" ( fun _ ->
-    Process.killAllByName  "npm"
+    Process.killAllByName "npm"
     run npmTool "install -g vsce" ""
 )
 
 Target.create "CopyDocs" (fun _ ->
-    Shell.copyFiles "release" ["README.md"; "LICENSE.md"]
-    Shell.copyFile "release/CHANGELOG.md" "RELEASE_NOTES.md"
+    Shell.copyFiles "release" ["README.md"; "LICENSE"]
+    Shell.copyFile "release/CHANGELOG.md" "CHANGELOG.md"
 )
 
 Target.create "RunScript" (fun _ ->
@@ -228,15 +232,8 @@ Target.create "CopyFSACNetcore" (fun _ ->
     copyFSACNetcore releaseBinNetcore fsacBinNetcore
 )
 
-Target.create "CopyForge" (fun _ ->
-    let forgeDir = "paket-files/github.com/ionide/Forge"
-    let releaseForge = "release/bin_forge"
-
-    copyForge forgeDir releaseForge
-)
-
 Target.create "CopyGrammar" (fun _ ->
-    let fsgrammarDir = "paket-files/github.com/ionide/ionide-fsgrammar/grammar"
+    let fsgrammarDir = "grammars"
     let fsgrammarRelease = "release/syntaxes"
 
     copyGrammar fsgrammarDir fsgrammarRelease
@@ -249,12 +246,12 @@ Target.create "CopySchemas" (fun _ ->
     copySchemas fsschemaDir fsschemaRelease
 )
 
-Target.create "CopyLib" (fun _ ->
+(* Target.create "CopyLib" (fun _ ->
     let libDir = "lib"
     let releaseDir = "release/bin"
 
     copyLib libDir releaseDir
-)
+) *)
 
 Target.create "BuildPackage" ( fun _ ->
     buildPackage "release"
@@ -272,15 +269,13 @@ Target.create "ReleaseGitHub" (fun _ ->
     releaseGithub release
 )
 
-// --------------------------------------------------------------------------------------
-// Run build by default. Invoke 'build <Target>' to override
-// --------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------
+// 4. FAKE targets hierarchy
+// --------------------------------------------------------------------------------------------------------
 
 Target.create "Default" ignore
 Target.create "Build" ignore
-Target.create "BuildExp" ignore
 Target.create "Release" ignore
-Target.create "ReleaseExp" ignore
 Target.create "BuildPackages" ignore
 
 "YarnInstall" ==> "RunScript"
@@ -295,12 +290,10 @@ Target.create "BuildPackages" ignore
 ==> "CopyDocs"
 ==> "CopyFSAC"
 ==> "CopyFSACNetcore"
-==> "CopyForge"
 ==> "CopyGrammar"
 ==> "CopySchemas"
-==> "CopyLib"
+//==> "CopyLib"
 ==> "Build"
-
 
 "YarnInstall" ==> "Build"
 "DotNetRestore" ==> "Build"
@@ -313,5 +306,3 @@ Target.create "BuildPackages" ignore
 ==> "Release"
 
 Target.runOrDefault "Default"
-
-// todo - copy readme to release?
