@@ -7,9 +7,8 @@ open Fable.Core.JsInterop
 open Fable.Import.vscode
 open Ionide.VSCode.Helpers
 open MF.Tuc.Extension
-open Fable.Import.Node.ChildProcess
+open global.Node.ChildProcess
 //open Debugger - ?
-open Fable.Import.vscode
 
 (* type Api =
     { ProjectLoadedEvent : Event<DTO.Project>
@@ -18,7 +17,7 @@ open Fable.Import.vscode
       GetProjectLauncher : OutputChannel -> DTO.Project -> (string -> Fable.Import.JS.Promise<ChildProcess>) option
       DebugProject : DTO.Project -> string [] -> Fable.Import.JS.Promise<unit> } *)
 
-let activate (context : ExtensionContext) = // : Fable.Import.JS.Promise<Api> =
+let activate (context : ExtensionContext) = // : JS.Promise<Api> =
 
     (* let resolve = "FSharp.resolveNamespaces" |> Configuration.get false
     let solutionExplorer = "FSharp.enableTreeView" |> Configuration.get true
@@ -34,6 +33,7 @@ let activate (context : ExtensionContext) = // : Fable.Import.JS.Promise<Api> =
     |> Promise.onSuccess (fun _ ->
         printfn "LanguageServices started at %A ..." DateTime.Now
     )
+    |> Promise.catch ignore
 
     (* LanguageService.start context
     |> Promise.onSuccess (fun _ ->

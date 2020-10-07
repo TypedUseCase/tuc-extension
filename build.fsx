@@ -69,9 +69,8 @@ let npmTool =
 let vsceTool = lazy (platformTool "vsce" "vsce.cmd")
 
 let runFable additionalArgs =
-    let cmd = "webpack -- --config webpack.config.js " + additionalArgs
-    DotNet.exec (fun p -> { p with WorkingDirectory = "src"; } ) "fable" cmd
-    |> ignore
+    let cmd = "webpack " + additionalArgs
+    Yarn.exec cmd id
 
 let copyFSAC releaseBin fsacBin =
     Directory.ensure releaseBin
@@ -201,7 +200,7 @@ Target.create "DotNetRestore" <| fun _ ->
     DotNet.restore id "src"
 
 Target.create "Watch" (fun _ ->
-    runFable "--watch"
+    runFable "--mode development --watch"
 )
 
 Target.create "InstallVSCE" ( fun _ ->
@@ -215,8 +214,11 @@ Target.create "CopyDocs" (fun _ ->
 )
 
 Target.create "RunScript" (fun _ ->
-    // Ideally we would want a production (minized) build but UglifyJS fail on PerMessageDeflate.js as it contains non-ES6 javascript.
-    runFable ""
+    runFable "--mode production"
+)
+
+Target.create "RunDevScript" (fun _ ->
+    runFable "--mode development"
 )
 
 Target.create "CopyFSAC" (fun _ ->
@@ -275,7 +277,10 @@ Target.create "ReleaseGitHub" (fun _ ->
 
 Target.create "Default" ignore
 Target.create "Build" ignore
+Target.create "BuildDev" ignore
+Target.create "BuildExp" ignore
 Target.create "Release" ignore
+Target.create "ReleaseExp" ignore
 Target.create "BuildPackages" ignore
 
 "YarnInstall" ==> "RunScript"
@@ -288,12 +293,12 @@ Target.create "BuildPackages" ignore
 "Clean"
 ==> "RunScript"
 ==> "CopyDocs"
-==> "CopyFSAC"
 ==> "CopyFSACNetcore"
 ==> "CopyGrammar"
 ==> "CopySchemas"
 //==> "CopyLib"
 ==> "Build"
+
 
 "YarnInstall" ==> "Build"
 "DotNetRestore" ==> "Build"
@@ -304,5 +309,14 @@ Target.create "BuildPackages" ignore
 ==> "ReleaseGitHub"
 ==> "PublishToGallery"
 ==> "Release"
+
+"YarnInstall" ==> "Watch"
+"DotNetRestore" ==> "Watch"
+
+"YarnInstall" ==> "RunDevScript"
+"DotNetRestore" ==> "RunDevScript"
+
+"RunDevScript"
+==> "BuildDev"
 
 Target.runOrDefault "Default"

@@ -4,9 +4,14 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <!-- <Compile Include="..\paket-files\ionide\ionide-vscode-helpers\src\Fable.Import.VSCode.fs"> -->
     <Compile Include="..\paket-files\MortalFlesh\ionide-vscode-helpers\src\Fable.Import.VSCode.fs">
       <Paket>True</Paket>
       <Link>paket-files/Fable.Import.VSCode.fs</Link>
+    </Compile>
+    <Compile Include="..\paket-files\ionide\ionide-vscode-helpers\src\Helpers.fs">
+      <Paket>True</Paket>
+      <Link>paket-files/Helpers.fs</Link>
     </Compile>
     <Compile Include="..\paket-files\ionide\ionide-vscode-helpers\src\Fable.Import.Showdown.fs">
       <Paket>True</Paket>
@@ -15,10 +20,6 @@
     <Compile Include="..\paket-files\ionide\ionide-vscode-helpers\src\Fable.Import.VSCode.LanguageServer.fs">
       <Paket>True</Paket>
       <Link>paket-files/Fable.Import.VSCode.LanguageServer.fs</Link>
-    </Compile>
-    <Compile Include="..\paket-files\ionide\ionide-vscode-helpers\src\Helpers.fs">
-      <Paket>True</Paket>
-      <Link>paket-files/Helpers.fs</Link>
     </Compile>
     <None Include="paket.references" />
     <Compile Include="Imports/Node.Util.fs" />

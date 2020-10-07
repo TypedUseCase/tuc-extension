@@ -1,5 +1,4 @@
 namespace MF.Tuc.Extension
-
 [<ReflectedDefinition>]
 module DTO =
 
@@ -237,13 +236,13 @@ module DTO =
 
     type Project =
         { Project : ProjectFilePath
-          Files : SourceFilePath list
+          Files : SourceFilePath array
           Output : string
-          References : ProjectReferencePath list
+          References : ProjectReferencePath array
           Logs : Map<string, string>
           OutputType : string
           Info : ProjectResponseInfo
-          Items: ProjectResponseItem list
+          Items: ProjectResponseItem array
           AdditionalInfo : Map<string, string> }
 
     type FsdnRequest =
