@@ -1,4 +1,4 @@
-namespace MF.Tuc.Extension
+namespace Tuc.Extension
 
 open System
 open Fable.Core
@@ -28,9 +28,6 @@ module Notifications =
     let mutable notifyWorkspaceHandler : Option<Choice<ProjectResult,ProjectLoadingResult,(string * ErrorData),string> -> unit> = None
 
 module LanguageService =
-    let [<Literal>] private TucLanguageShortName = "tuc"
-    let [<Literal>] private TucLanguageName = "TypedUseCase"
-
     module Types =
         type PlainNotification= { content: string }
 
@@ -93,7 +90,7 @@ module LanguageService =
             let opts = createEmpty<Client.LanguageClientOptions>
             let selector =
                 createObj [
-                    "language" ==> TucLanguageShortName
+                    "language" ==> Tuc.LanguageShortName
                 ] |> unbox<Client.DocumentSelector>
 
             let initOpts =
@@ -102,7 +99,7 @@ module LanguageService =
                 ]
 
             let synch = createEmpty<Client.SynchronizeOptions>
-            synch.configurationSection <- Some !^TucLanguageName
+            synch.configurationSection <- Some !^Tuc.LanguageName
             synch.fileEvents <- Some( !^ ResizeArray([fileDeletedWatcher]))
 
             opts.documentSelector <- Some !^selector
@@ -114,7 +111,7 @@ module LanguageService =
 
             opts
 
-        let cl = LanguageClient(TucLanguageName, TucLanguageShortName, options, clientOpts, false)
+        let cl = LanguageClient(Tuc.LanguageName, Tuc.LanguageShortName, options, clientOpts, false)
         client <- Some cl
         cl
 
@@ -153,44 +150,12 @@ module LanguageService =
             ))
         ) *)
 
-    let provideKeyWords () =
-        let selector =
-            createObj [
-                "language" ==> TucLanguageShortName
-            ] |> unbox<DocumentSelector>
-
-        let provider =
-            { new CompletionItemProvider with
-                member this.provideCompletionItems(document, position, token) =
-                    let item = CompletionItem("hello-world")
-                    //item.label <- "hello-world"
-                    item.kind <- CompletionItemKind.Property
-                    item.insertText <- (U2.Case2 <| SnippetString "Hello ${1:name}!")
-                    item.detail <- "Hello world from F#!"
-
-                    let x: ResizeArray<CompletionItem> =
-                        ResizeArray([
-                            item
-                        ])
-                    x
-                    |> U2.Case1
-                    // |> unbox<ResizeArray<CompletionItem>>
-
-                member this.resolveCompletionItem(item, token) = item |> U2.Case1
-            }
-
-        let tucKeywordProvider = vscode.languages.registerCompletionItemProvider(selector, provider)
-        tucKeywordProvider
-
     let start (c : ExtensionContext) =
         promise {
             (* let! startOpts = getOptions ()
             let cl = createClient startOpts
             c.subscriptions.Add (cl.start ())
             let! _ = readyClient cl *)
-
-            let tucKeywordProvider = provideKeyWords()
-            c.subscriptions.Add(tucKeywordProvider)
 
             return ()
         }

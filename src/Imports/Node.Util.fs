@@ -1,4 +1,4 @@
-module MF.Tuc.Extension.Node.Util
+module Tuc.Extension.Node.Util
 
 open System
 open Fable.Core

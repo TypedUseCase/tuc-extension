@@ -1,7 +1,12 @@
-namespace MF.Tuc.Extension
+namespace Tuc.Extension
 
 open System
 open Fable.Import.vscode
+
+[<RequireQualifiedAccess>]
+module Tuc =
+    let [<Literal>] LanguageShortName = "tuc"
+    let [<Literal>] LanguageName = "TypedUseCase"
 
 [<AutoOpen>]
 module Json =

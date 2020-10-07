@@ -1,4 +1,4 @@
-namespace MF.Tuc.Extension
+namespace Tuc.Extension
 [<ReflectedDefinition>]
 module DTO =
 
