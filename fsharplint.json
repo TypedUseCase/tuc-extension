@@ -1,0 +1,9 @@
+{
+    "memberNames": {
+        "enabled": false,
+        "config": {
+            "naming": "PascalCase",
+            "underscores": "AllowPrefix"
+        }
+    }
+}
