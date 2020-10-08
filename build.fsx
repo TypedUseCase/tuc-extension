@@ -283,6 +283,7 @@ Target.create "Release" ignore
 Target.create "ReleaseExp" ignore
 Target.create "BuildPackages" ignore
 
+"CopyGrammar" ==> "RunScript"
 "YarnInstall" ==> "RunScript"
 "DotNetRestore" ==> "RunScript"
 
@@ -294,7 +295,6 @@ Target.create "BuildPackages" ignore
 ==> "RunScript"
 ==> "CopyDocs"
 ==> "CopyFSACNetcore"
-==> "CopyGrammar"
 ==> "CopySchemas"
 //==> "CopyLib"
 ==> "Build"
@@ -310,9 +310,11 @@ Target.create "BuildPackages" ignore
 ==> "PublishToGallery"
 ==> "Release"
 
+"CopyGrammar" ==> "Watch"
 "YarnInstall" ==> "Watch"
 "DotNetRestore" ==> "Watch"
 
+"CopyGrammar" ==> "RunDevScript"
 "YarnInstall" ==> "RunDevScript"
 "DotNetRestore" ==> "RunDevScript"
 

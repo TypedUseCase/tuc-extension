@@ -19,7 +19,7 @@
         "comments": {
             "patterns": [
                 {
-                    "name": "comment.line",
+                    "name": "comment.line.double-slash",
                     "match": "//.*"
                 }
             ]
