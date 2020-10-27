@@ -1,0 +1,46 @@
+name: PR
+
+on:
+    pull_request:
+
+jobs:
+    build:
+        strategy:
+            matrix:
+                os: [windows-latest, macos-latest]
+                dotnet: [3.1.201]
+        runs-on: ${{ matrix.os }}
+
+        steps:
+            -   uses: actions/checkout@v2
+
+            -   name: Setup .NET Core
+                uses: actions/setup-dotnet@v1
+                with:
+                    dotnet-version: ${{ matrix.dotnet }}
+
+            -   name: Restore tools
+                run: dotnet tool restore
+
+            -   name: Run tests
+                run: dotnet fake build
+
+    tests:
+        strategy:
+            matrix:
+                dotnet: [3.1.201]
+        runs-on: macos-latest
+
+        steps:
+            -   uses: actions/checkout@v2
+
+            -   name: Setup .NET Core
+                uses: actions/setup-dotnet@v1
+                with:
+                    dotnet-version: ${{ matrix.dotnet }}
+
+            -   name: Restore tools
+                run: dotnet tool restore
+
+            -   name: Run tests
+                run: dotnet fake build -t tests no-clean

@@ -35,22 +35,21 @@ NUGET
       FSharp.Core (>= 4.7)
 GIT
   remote: https://github.com/fsharp/FsAutoComplete.git
-     (a6d232163d17a8b8bfaf32f27f8bf4426edbc886)
+     (2c0cb1604814444ed95f58fe55adb76b3210e6f7)
       build: build.cmd
       os: win
-     (a6d232163d17a8b8bfaf32f27f8bf4426edbc886)
+     (2c0cb1604814444ed95f58fe55adb76b3210e6f7)
       build: build.sh
       os: linux
-     (a6d232163d17a8b8bfaf32f27f8bf4426edbc886)
+     (2c0cb1604814444ed95f58fe55adb76b3210e6f7)
       build: build.sh
       os: osx
 GITHUB
-  remote: MortalFlesh/ionide-vscode-helpers
-    src/Fable.Import.VSCode.fs (4755c0ed247a170861ec0ef920cb802ceddb6b3c)
   remote: ionide/ionide-vscode-helpers
-    src/Fable.Import.Showdown.fs (6e63e926e1af0c425134640bf2c4d5c154681fcb)
-    src/Fable.Import.VSCode.LanguageServer.fs (6e63e926e1af0c425134640bf2c4d5c154681fcb)
-    src/Helpers.fs (6e63e926e1af0c425134640bf2c4d5c154681fcb)
+    src/Fable.Import.Showdown.fs (d446548df92f3691acce437f4313437e7a88976d)
+    src/Fable.Import.VSCode.fs (d446548df92f3691acce437f4313437e7a88976d)
+    src/Fable.Import.VSCode.LanguageServer.fs (d446548df92f3691acce437f4313437e7a88976d)
+    src/Helpers.fs (d446548df92f3691acce437f4313437e7a88976d)
 GROUP build
 STORAGE: NONE
 RESTRICTION: == netstandard2.0
