@@ -12,9 +12,10 @@ nuget Fable.HtmlConverter ~> 2.1.0
 nuget Thoth.Json ~> 4.1.0
 
 
-git https://github.com/fsharp/FsAutoComplete.git master build:"build.cmd", OS: win
-git https://github.com/fsharp/FsAutoComplete.git master build:"build.sh", OS: linux
-git https://github.com/fsharp/FsAutoComplete.git master build:"build.sh", OS: osx
+// todo - uncomment, when there is a tag released
+//git https://github.com/TypedUseCase/language-server.git master build:"build.cmd -t release", OS: win
+//git https://github.com/TypedUseCase/language-server.git master build:"build.sh -t release", OS: linux
+//git https://github.com/TypedUseCase/language-server.git master build:"build.sh -t release", OS: osx
 
 github ionide/ionide-vscode-helpers src/Fable.Import.VSCode.fs
 github ionide/ionide-vscode-helpers src/Helpers.fs

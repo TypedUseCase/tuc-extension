@@ -35,7 +35,24 @@
                 "scopeName": "source.tuc",
                 "path": "./syntaxes/tuc.tmLanguage.json"
             }
-        ]
+        ],
+        "configuration": {
+            "type": "object",
+            "title": "tuc",
+            "properties": {
+                "TUC.languageServer.path": {
+                    "type": "string",
+                    "default": "",
+                    "description": "The path to the 'LanguageServer' executable or compiled .dll (dll will be run by dotnet), useful for debugging a self-built Language Server. Requires restart.",
+                    "scope": "machine-overridable"
+                },
+                "TUC.languageServer.verbosity": {
+                    "type": "string",
+                    "default": "",
+                    "description": "A verbosity level of the LanguageServer. Requires restart."
+                }
+            }
+        }
     },
     "main": "./extension.js",
     "activationEvents": [

@@ -67,6 +67,15 @@ module String =
 
     let trim (s : string) = s.Trim()
 
+    let trimC (char: char) (string: string) =
+        string.Trim char
+
+    let trimEnd (char: char) (string: string) =
+        string.TrimEnd char
+
+    let trimStart (char: char) (string: string) =
+        string.TrimStart char
+
     let replace (oldVal : string) (newVal : string) (str : string) : string =
         match str with
         | null -> null
@@ -85,6 +94,35 @@ module String =
         match s with
         | s when s |> isQuoted |> not && s |> containsWhitespace -> quote s
         | s -> s
+
+    let toLower (value: string) =
+        value.ToLower()
+
+    let ucFirst (value: string) =
+        match value |> Seq.toList with
+        | [] -> ""
+        | first :: rest -> (string first).ToUpper() :: (rest |> List.map string) |> String.concat ""
+
+    let replaceAll (replace: string list) replacement (value: string) =
+        replace
+        |> List.fold (fun (value: string) toRemove ->
+            value.Replace(toRemove, replacement)
+        ) value
+
+    let remove toRemove = replaceAll toRemove ""
+
+    let append suffix string =
+        sprintf "%s%s" string suffix
+
+    let contains (subString: string) (string: string) =
+        string.Contains(subString)
+
+    let startsWith (prefix: string) (string: string) =
+        string.StartsWith(prefix)
+
+    let (|IsEmpty|_|): string -> _ = function
+        | empty when empty |> String.IsNullOrEmpty -> Some ()
+        | _ -> None
 
 
 [<RequireQualifiedAccess>]
@@ -135,6 +173,10 @@ module Utils =
     type System.Collections.Generic.Dictionary<'key, 'value> with
         [<Emit("$0.has($1) ? $0.get($1) : null")>]
         member this.TryGet(key: 'key): 'value option = jsNative
+
+    let tee f a =
+        f a
+        a
 
 [<AutoOpen>]
 module JS =
@@ -346,24 +388,11 @@ type ShowStatus private (panel : WebviewPanel, body : string) as this =
 [<RequireQualifiedAccess>]
 module VSCodeExtension =
 
-    let private extensionName =
-#if IONIDE_EXPERIMENTAL
-        "experimental-fsharp"
-#else
-        "ionide-fsharp"
-#endif
+    let private extensionName = "tuc"
 
-    let ionidePluginPath () =
-
-        let capitalize (s: string) =
-            sprintf "%c%s" (s.[0] |> Char.ToUpper) (s.Substring(1))
-
-        let oldExtensionName = capitalize extensionName
-
-        try
-            (VSCode.getPluginPath (sprintf "Ionide.%s" extensionName))
-        with
-        | _ -> (VSCode.getPluginPath (sprintf "Ionide.%s" oldExtensionName))
+    let pluginPath () =
+        try VSCode.getPluginPath extensionName |> Some
+        with _ -> None
 
     let workbenchViewId () =
         sprintf "workbench.view.extension.%s" extensionName

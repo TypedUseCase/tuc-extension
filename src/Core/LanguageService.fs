@@ -31,13 +31,6 @@ module LanguageService =
     module Types =
         type PlainNotification= { content: string }
 
-        type ConfigValue<'a> =
-        | UserSpecified of 'a
-        | Implied of 'a
-
-        type [<RequireQualifiedAccess>] FSACTargetRuntime =
-        | NET
-        | NetcoreFdd
 
         /// Position in a text document expressed as zero-based line and zero-based character offset.
         /// A position is between two characters like an ‘insert’ cursor in a editor.
@@ -75,7 +68,10 @@ module LanguageService =
         type FSharpLiterateRequest = {FileName: string}
         type FSharpPieplineHintsRequest = {FileName: string}
 
+
     let mutable client : LanguageClient option = None
+
+    let private handleUntitled (fn : string) = if fn.EndsWith ".fsx" then fn else (fn + ".fsx")
 
     let private createClient opts =
         let options =
@@ -84,7 +80,7 @@ module LanguageService =
                 "debug" ==> opts
                 ] |> unbox<ServerOptions>
 
-        let fileDeletedWatcher = workspace.createFileSystemWatcher("**/*.{tuc}", true, true, false)  // todo - add fs,fsx ?
+        let fileDeletedWatcher = workspace.createFileSystemWatcher("**/*.{tuc,fsx}", true, true, false)
 
         let clientOpts =
             let opts = createEmpty<Client.LanguageClientOptions>
@@ -104,7 +100,7 @@ module LanguageService =
 
             opts.documentSelector <- Some !^selector
             opts.synchronize <- Some synch
-            opts.revealOutputChannelOn <- Some Client.RevealOutputChannelOn.Never
+            opts.revealOutputChannelOn <- Some Client.RevealOutputChannelOn.Info    // Shows the error output only
 
 
             opts.initializationOptions <- Some !^(Some initOpts)
@@ -112,13 +108,89 @@ module LanguageService =
             opts
 
         let cl = LanguageClient(Tuc.LanguageName, Tuc.LanguageShortName, options, clientOpts, false)
+        cl.initializeResult |> Option.iter (fun r -> printfn "client.init: %A" r)
         client <- Some cl
         cl
 
-    (* let private readyClient (cl: LanguageClient) =
+    let getOptions () =
+
+        let dotnetNotFound () = promise {
+            let msg = """
+            Cannot start .NET Core language services because `dotnet` was not found.
+            Consider:
+            * setting the `FSharp.dotnetRoot` settings key to a directory with a `dotnet` binary,
+            * including `dotnet` in your PATH, or
+            * installing .NET Core into one of the default locations.
+            """
+            let! result = vscode.window.showErrorMessage(msg)
+            return failwith "no `dotnet` binary found"
+        }
+
+        // let backgroundSymbolCache = "FSharp.enableBackgroundServices" |> Configuration.get true
+        let languageServerPath = "TUC.languageServer.path" |> Configuration.get ""
+        let verbosity = "TUC.languageServer.verbosity" |> Configuration.get ""
+
+        let startServer languageServerPath = promise {
+            let args =
+                [
+                    yield "ls:start"
+                    //if backgroundSymbolCache then yield "--background-service-enabled"
+
+                    match verbosity |> String.toLower with
+                    | "verbose" | "v" -> yield "-v"
+                    | "veryverbose" | "vv" -> yield "-vv"
+                    | "debug" | "vvv" -> yield "-vvv"
+                    | _ -> ()
+                ]
+
+            printfn "[LS] start with %A" [
+                "languageServerPath", languageServerPath
+                "verbosity", verbosity
+            ]
+
+            match languageServerPath with
+            | languageServerPath when languageServerPath |> String.endWith ".dll" ->
+                let! dotnet = Environment.dotnet
+
+                match dotnet with
+                | Some dotnet ->
+                    printfn "[LS] dotnet path: %A" dotnet
+
+                    return
+                        [
+                            "command" ==> dotnet
+                            "args" ==> (languageServerPath :: args |> ResizeArray)
+                            "transport" ==> 0
+                        ]
+                        |> tee (printfn "[LS] Start by dotnet with: %A")
+                        |> createObj
+                | None ->
+                    return! dotnetNotFound ()
+
+            | languageServerPathExecutable ->
+                return
+                    [
+                        "command" ==> languageServerPathExecutable
+                        "args" ==> (args |> ResizeArray)
+                        "transport" ==> 0
+                    ]
+                    |> tee (printfn "[LS] Start with: %A")
+                    |> createObj
+        }
+
+        match languageServerPath with
+        | String.IsEmpty ->
+            match VSCodeExtension.pluginPath() with
+            | Some path -> path + "/bin/LanguageServer.dll"
+            | _ -> "release/bin/netcoreapp3.1/LanguageServer.dll"
+        | languageServerPath -> languageServerPath
+        |> tee (printfn "LanguageServer: '%s'")
+        |> startServer
+
+    let private readyClient (cl: LanguageClient) =
         cl.onReady ()
         |> Promise.onSuccess (fun _ ->
-            cl.onNotification("fsharp/notifyWorkspace", (fun (a: Types.PlainNotification) ->
+            (* cl.onNotification("fsharp/notifyWorkspace", (fun (a: Types.PlainNotification) ->
                 match Notifications.notifyWorkspaceHandler with
                 | None -> ()
                 | Some cb ->
@@ -136,9 +208,9 @@ module LanguageService =
                             ()
                     let res = a.content |> ofJson<obj>
                     onMessage res
-            ))
+            )) *)
 
-            cl.onNotification("fsharp/fileParsed", (fun (a: Types.PlainNotification) ->
+            (* cl.onNotification("fsharp/fileParsed", (fun (a: Types.PlainNotification) ->
                 let fn = a.content
                 let te = window.visibleTextEditors |> Seq.find (fun n -> path.normalize(n.document.fileName).ToLower() = path.normalize(fn).ToLower())
 
@@ -147,15 +219,18 @@ module LanguageService =
                 Notifications.onDocumentParsedEmitter.fire ev
 
                 ()
-            ))
-        ) *)
+            )) *)
+
+            printfn "Ready -> onSuccess"
+            ()
+        )
 
     let start (c : ExtensionContext) =
         promise {
-            (* let! startOpts = getOptions ()
+            let! startOpts = getOptions ()
             let cl = createClient startOpts
             c.subscriptions.Add (cl.start ())
-            let! _ = readyClient cl *)
+            let! _ = readyClient cl
 
             return ()
         }

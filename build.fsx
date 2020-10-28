@@ -41,7 +41,8 @@ let gitHome = "https://github.com/" + gitOwner
 // The name of the project on GitHub
 let gitName = "tuc-extension"
 
-let fsacDir = "paket-files/github.com/fsharp/FsAutoComplete"
+let languageServerDir = "../language-server"    // local dir for developing
+//let languageServerDir = "paket-files/github.com/TypedUseCase/LanguageServer"
 
 // Read additional information from the release notes document
 let release = ReleaseNotes.parse (System.IO.File.ReadAllLines "CHANGELOG.md" |> Seq.filter ((<>) "## Unreleased"))
@@ -72,15 +73,10 @@ let runFable additionalArgs =
     let cmd = "webpack " + additionalArgs
     Yarn.exec cmd id
 
-let copyFSAC releaseBin fsacBin =
+let copyLanguageServer releaseBin languageServerBin =
     Directory.ensure releaseBin
     Shell.cleanDir releaseBin
-    Shell.copyDir releaseBin fsacBin (fun _ -> true)
-
-let copyFSACNetcore releaseBinNetcore fsacBinNetcore =
-    Directory.ensure releaseBinNetcore
-    Shell.cleanDir releaseBinNetcore
-    Shell.copyDir releaseBinNetcore fsacBinNetcore (fun _ -> true)
+    Shell.copyDir releaseBin languageServerBin (fun _ -> true)
 
 let copyGrammar grammarDir grammarRelease =
     Directory.ensure grammarRelease
@@ -221,17 +217,10 @@ Target.create "RunDevScript" (fun _ ->
     runFable "--mode development"
 )
 
-Target.create "CopyFSAC" (fun _ ->
-    let fsacBin = sprintf "%s/bin/release" fsacDir
+Target.create "CopyLanguageServer" (fun _ ->
+    let languageServerBin = sprintf "%s/bin/release" languageServerDir
     let releaseBin = "release/bin"
-    copyFSAC releaseBin fsacBin
-)
-
-Target.create "CopyFSACNetcore" (fun _ ->
-    let fsacBinNetcore = sprintf "%s/bin/release_netcore" fsacDir
-    let releaseBinNetcore = "release/bin_netcore"
-
-    copyFSACNetcore releaseBinNetcore fsacBinNetcore
+    copyLanguageServer releaseBin languageServerBin
 )
 
 Target.create "CopyGrammar" (fun _ ->
@@ -294,7 +283,7 @@ Target.create "BuildPackages" ignore
 "Clean"
 ==> "RunScript"
 ==> "CopyDocs"
-==> "CopyFSACNetcore"
+==> "CopyLanguageServer"
 ==> "CopySchemas"
 //==> "CopyLib"
 ==> "Build"

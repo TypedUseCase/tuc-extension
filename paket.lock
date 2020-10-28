@@ -33,17 +33,6 @@ NUGET
     Thoth.Json (4.1)
       Fable.Core (>= 3.1.4)
       FSharp.Core (>= 4.7)
-GIT
-  remote: https://github.com/fsharp/FsAutoComplete.git
-     (2c0cb1604814444ed95f58fe55adb76b3210e6f7)
-      build: build.cmd
-      os: win
-     (2c0cb1604814444ed95f58fe55adb76b3210e6f7)
-      build: build.sh
-      os: linux
-     (2c0cb1604814444ed95f58fe55adb76b3210e6f7)
-      build: build.sh
-      os: osx
 GITHUB
   remote: ionide/ionide-vscode-helpers
     src/Fable.Import.Showdown.fs (d446548df92f3691acce437f4313437e7a88976d)
