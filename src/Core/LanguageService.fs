@@ -80,14 +80,16 @@ module LanguageService =
                 "debug" ==> opts
                 ] |> unbox<ServerOptions>
 
-        let fileDeletedWatcher = workspace.createFileSystemWatcher("**/*.{tuc,fsx}", true, true, false)
+        let fileWatcher = workspace.createFileSystemWatcher("**/*.{tuc,fsx}", false, true, false)
 
         let clientOpts =
             let opts = createEmpty<Client.LanguageClientOptions>
             let selector =
-                createObj [
-                    "language" ==> Tuc.LanguageShortName
-                ] |> unbox<Client.DocumentSelector>
+                [
+                    Tuc.LanguageShortName
+                    "fsharp"
+                ]
+                |> ResizeArray
 
             let initOpts =
                 createObj [
@@ -96,7 +98,7 @@ module LanguageService =
 
             let synch = createEmpty<Client.SynchronizeOptions>
             synch.configurationSection <- Some !^Tuc.LanguageName
-            synch.fileEvents <- Some( !^ ResizeArray([fileDeletedWatcher]))
+            synch.fileEvents <- Some( !^ ResizeArray([fileWatcher]))
 
             opts.documentSelector <- Some !^selector
             opts.synchronize <- Some synch
