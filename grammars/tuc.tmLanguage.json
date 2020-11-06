@@ -41,10 +41,6 @@
                     ]
                 },
                 {
-                    "name": "invalid.tuc.name.empty",
-                    "match": "^tuc\\s*$|\\n"
-                },
-                {
                     "name": "tuc.name",
                     "begin": "^tuc ",
                     "end": "$|\\n",
@@ -80,6 +76,22 @@
                             }
                         }
                     ]
+                },
+                {
+                    "name": "tuc.name.keyword",
+                    "begin": "^tuc",
+                    "end": "$|\\n",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "entity.name.type.tuc.name",
+                            "patterns": [
+                                {
+                                    "name": "markup.underline.tuc.name",
+                                    "match": "tuc"
+                                }
+                            ]
+                        }
+                    }
                 }
             ]
         },
@@ -106,6 +118,10 @@
                 },
                 {
                     "patterns": [
+                        {
+                            "name": "entity.name.tag.alias.keyword",
+                            "match": "^\\s*as\\s*$"
+                        },
                         {
                             "begin": "^participants",
                             "beginCaptures": {
@@ -496,10 +512,6 @@
                     ]
                 },
                 {
-                    "name": "invalid.section.empty",
-                    "match": "^section\\s*$|\\n"
-                },
-                {
                     "name": "section.name",
                     "begin": "^section",
                     "end": "$|\\n",
@@ -522,10 +534,6 @@
         },
         "parts.group": {
             "patterns": [
-                {
-                    "name": "invalid.group.empty",
-                    "match": "group\\s*$|\\n"
-                },
                 {
                     "name": "group.name",
                     "begin": "\\b(group)\\b",
@@ -550,10 +558,6 @@
         "parts.loop": {
             "patterns": [
                 {
-                    "name": "invalid.loop.empty",
-                    "match": "loop\\s*$|\\n"
-                },
-                {
                     "name": "loop.name",
                     "begin": "\\b(loop)\\b",
                     "end": "$|\\n",
@@ -576,10 +580,6 @@
         },
         "parts.if-else": {
             "patterns": [
-                {
-                    "name": "invalid.if.empty",
-                    "match": "if\\s*$|\\n"
-                },
                 {
                     "name": "if",
                     "begin": "\\b(if)\\b",

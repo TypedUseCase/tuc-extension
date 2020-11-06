@@ -4,6 +4,7 @@
 ## Unreleased
 - Change `comment.line` to `comment.line.double-slash`
 - Add recommended extensions
+- Do not mark _empty_ keyword as invalid by a grammar.
 
 ## 1.2.0 - 2020-10-05
 - Add code completion for tuc keywords
