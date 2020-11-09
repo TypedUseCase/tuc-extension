@@ -485,6 +485,9 @@
                     "include": "#parts.data-objects.write"
                 },
                 {
+                    "include": "#parts.data-objects.operator"
+                },
+                {
                     "include": "#parts.calls"
                 },
                 {
@@ -1044,6 +1047,14 @@
                             "include": "#comments"
                         }
                     ]
+                }
+            ]
+        },
+        "parts.data-objects.operator": {
+            "patterns": [
+                {
+                    "name": "keyword.operator.new.data.read-write",
+                    "match": "\\s*->\\s*"
                 }
             ]
         },
