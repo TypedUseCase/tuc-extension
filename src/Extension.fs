@@ -10,11 +10,24 @@ open Tuc.Extension
 open global.Node.ChildProcess
 
 let activate (context : ExtensionContext) = // : JS.Promise<Api> =
-    printfn "Fable extension is starting at %A!" DateTime.Now
+    printfn "[TUC] Extension is starting at %A!" DateTime.Now
 
-    LanguageService.start context
+    LanguageService.start Project.update context
     |> Promise.onSuccess (fun _ ->
-        printfn "LanguageServices started at %A ..." DateTime.Now
+        printfn "[TUC] LanguageServices started at %A ..." DateTime.Now
+
+        let progressOpts = createEmpty<ProgressOptions>
+        progressOpts.location <- ProgressLocation.Window
+
+        window.withProgress(progressOpts, (fun p ->
+            let pm = createEmpty<ProgressMessage>
+            pm.message <- "[TUC] Loading ..."
+            p.report pm
+
+            Project.activate context LanguageService.tucInfo
+        ))
+        |> ignore
+
     )
     |> Promise.catch ignore
     |> Promise.map (fun _ ->

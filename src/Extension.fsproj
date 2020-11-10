@@ -30,9 +30,8 @@
         <Compile Include="Core/Logging.fs" />
     -->
     <Compile Include="Core/LanguageService.fs" />
-    <!--
-        <Compile Include="Core/Project.fs" />
-    -->
+    <Compile Include="Core/Project.fs" />
+
     <!-- Components -->
     <Compile Include="Components/KeywordsCompletion.fs" />
     <!-- Extension -->

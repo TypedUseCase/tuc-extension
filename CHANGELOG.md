@@ -7,6 +7,7 @@
 - Upgrade `Tuc` Grammar
     - Do not mark _empty_ keyword as invalid by a grammar.
     - Add Data read/write operator
+- Show Tuc status item
 
 ## 1.2.0 - 2020-10-05
 - Add code completion for tuc keywords

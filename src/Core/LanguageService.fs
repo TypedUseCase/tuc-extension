@@ -87,7 +87,7 @@ module LanguageService =
             let selector =
                 [
                     Tuc.LanguageShortName
-                    "fsharp"
+                    "fsharp"    // todo tohle tady asi byt nesmi, jinak nebude fungoat ionide a watch na domenu musi bezet jen uvnitr LS
                 ]
                 |> ResizeArray
 
@@ -189,50 +189,37 @@ module LanguageService =
         |> tee (printfn "LanguageServer: '%s'")
         |> startServer
 
-    let private readyClient (cl: LanguageClient) =
+    let tucInfo path =
+        match client with
+        | None -> Promise.empty
+        | Some client ->
+            let req : Types.PlainNotification = {
+                content = path
+            }
+
+            client.sendRequest("tuc/info", req)
+            |> Promise.map (fun (res: Types.PlainNotification) ->
+                res.content
+            )
+
+    let private readyClient projectUpdate (cl: LanguageClient) =
         cl.onReady ()
         |> Promise.onSuccess (fun _ ->
-            (* cl.onNotification("fsharp/notifyWorkspace", (fun (a: Types.PlainNotification) ->
-                match Notifications.notifyWorkspaceHandler with
-                | None -> ()
-                | Some cb ->
-                    let onMessage res =
-                        match res?Kind |> unbox with
-                        | "project" ->
-                            res |> unbox<ProjectResult> |> deserializeProjectResult |> Choice1Of4 |> cb
-                        | "projectLoading" ->
-                            res |> unbox<ProjectLoadingResult> |> Choice2Of4 |> cb
-                        | "error" ->
-                            res?Data |> parseError |> Choice3Of4 |> cb
-                        | "workspaceLoad" ->
-                            res?Data?Status |> unbox<string> |> Choice4Of4 |> cb
-                        | _ ->
-                            ()
-                    let res = a.content |> ofJson<obj>
-                    onMessage res
-            )) *)
 
-            (* cl.onNotification("fsharp/fileParsed", (fun (a: Types.PlainNotification) ->
-                let fn = a.content
-                let te = window.visibleTextEditors |> Seq.find (fun n -> path.normalize(n.document.fileName).ToLower() = path.normalize(fn).ToLower())
+            cl.onNotification("tuc/fileParsed", (fun (a: Types.PlainNotification) ->
+                printfn "[TUC] On tuc/fileParsed %A -> update project ..." a.content
+                projectUpdate a.content
+            ))
 
-                let ev = {Notifications.fileName = a.content; Notifications.version = te.document.version; Notifications.document = te.document }
-
-                Notifications.onDocumentParsedEmitter.fire ev
-
-                ()
-            )) *)
-
-            printfn "Ready -> onSuccess"
-            ()
+            printfn "[TUC] Ready"
         )
 
-    let start (c : ExtensionContext) =
+    let start projectUpdate (c : ExtensionContext) =
         promise {
             let! startOpts = getOptions ()
             let cl = createClient startOpts
             c.subscriptions.Add (cl.start ())
-            let! _ = readyClient cl
+            let! _ = readyClient projectUpdate cl
 
             return ()
         }
