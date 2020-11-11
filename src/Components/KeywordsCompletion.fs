@@ -65,12 +65,14 @@ module KeywordsCompletion =
             { new CompletionItemProvider with
                 member __.provideCompletionItems(document, position, token) =
                     keywords
-                    |> List.map (fun { Label = label; Snippet = snippet; Detail = detail; Documentation = documentation } ->
+                    |> List.mapi (fun index { Label = label; Snippet = snippet; Detail = detail; Documentation = documentation } ->
                         let item =
                             CompletionItem(
                                 label = label,
                                 kind = CompletionItemKind.Keyword,
-                                insertText = (SnippetString(snippet) |> U2.Case2)
+                                insertText = !^SnippetString(snippet),
+                                sortText = sprintf "1000000%d" index,
+                                filterText = label
                             )
 
                         match detail with
@@ -78,15 +80,15 @@ module KeywordsCompletion =
                         | _ -> ()
 
                         match documentation with
-                        | Some documentation -> item.documentation <- (MarkdownString(documentation) |> U2.Case2)
+                        | Some documentation -> item.documentation <- !^MarkdownString(documentation)
                         | _ -> ()
 
                         item
                     )
                     |> ResizeArray
-                    |> U2.Case1
+                    |> (!^)
 
-                member __.resolveCompletionItem(item, token) = item |> U2.Case1
+                member __.resolveCompletionItem(item, token) = !^item
             }
 
         vscode.languages.registerCompletionItemProvider(selector, provider)
