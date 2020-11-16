@@ -29,10 +29,21 @@ NUGET
     Fable.Promise (2.1)
       Fable.Core (>= 3.1.5)
       FSharp.Core (>= 4.7)
-    FSharp.Core (4.7.2)
+    FSharp.Core (5.0)
     Thoth.Json (4.1)
       Fable.Core (>= 3.1.4)
       FSharp.Core (>= 4.7)
+GIT
+  remote: https://github.com/TypedUseCase/language-server.git
+     (eb326ddcfcfac37d7289893e94a5b00f2d5b8beb)
+      build: build.cmd -t release
+      os: win
+     (eb326ddcfcfac37d7289893e94a5b00f2d5b8beb)
+      build: build.sh -t release
+      os: linux
+     (eb326ddcfcfac37d7289893e94a5b00f2d5b8beb)
+      build: build.sh -t release
+      os: osx
 GITHUB
   remote: ionide/ionide-vscode-helpers
     src/Fable.Import.Showdown.fs (d446548df92f3691acce437f4313437e7a88976d)
