@@ -80,14 +80,13 @@ module LanguageService =
                 "debug" ==> opts
                 ] |> unbox<ServerOptions>
 
-        let fileWatcher = workspace.createFileSystemWatcher("**/*.{tuc,fsx}", false, true, false)
+        let fileWatcher = workspace.createFileSystemWatcher("**/*.{tuc}", false, true, false)
 
         let clientOpts =
             let opts = createEmpty<Client.LanguageClientOptions>
             let selector =
                 [
                     Tuc.LanguageShortName
-                    "fsharp"    // todo tohle tady asi byt nesmi, jinak nebude fungoat ionide a watch na domenu musi bezet jen uvnitr LS
                 ]
                 |> ResizeArray
 
@@ -102,7 +101,7 @@ module LanguageService =
 
             opts.documentSelector <- Some !^selector
             opts.synchronize <- Some synch
-            opts.revealOutputChannelOn <- Some Client.RevealOutputChannelOn.Info    // Shows the error output only
+            opts.revealOutputChannelOn <- Some Client.RevealOutputChannelOn.Never    // Shows the error output only | Use `.Info` for local development logs
 
 
             opts.initializationOptions <- Some !^(Some initOpts)
@@ -129,8 +128,8 @@ module LanguageService =
         }
 
         // let backgroundSymbolCache = "FSharp.enableBackgroundServices" |> Configuration.get true
-        let languageServerPath = "TUC.languageServer.path" |> Configuration.get ""
-        let verbosity = "TUC.languageServer.verbosity" |> Configuration.get ""
+        let languageServerPath = "TUC.languageServer.path" |> Configuration.get "" |> String.trim
+        let verbosity = "TUC.languageServer.verbosity" |> Configuration.get "" |> String.trim
 
         let startServer languageServerPath = promise {
             let args =
@@ -145,7 +144,7 @@ module LanguageService =
                     | _ -> ()
                 ]
 
-            printfn "[LS] start with %A" [
+            printfn "[TUC.LS] start with %A" [
                 "languageServerPath", languageServerPath
                 "verbosity", verbosity
             ]
@@ -156,7 +155,7 @@ module LanguageService =
 
                 match dotnet with
                 | Some dotnet ->
-                    printfn "[LS] dotnet path: %A" dotnet
+                    printfn "[TUC.LS] dotnet path: %A" dotnet
 
                     return
                         [
@@ -164,7 +163,7 @@ module LanguageService =
                             "args" ==> (languageServerPath :: args |> ResizeArray)
                             "transport" ==> 0
                         ]
-                        |> tee (printfn "[LS] Start by dotnet with: %A")
+                        |> tee (printfn "[TUC.LS] Start by dotnet with: %A")
                         |> createObj
                 | None ->
                     return! dotnetNotFound ()
@@ -176,7 +175,7 @@ module LanguageService =
                         "args" ==> (args |> ResizeArray)
                         "transport" ==> 0
                     ]
-                    |> tee (printfn "[LS] Start with: %A")
+                    |> tee (printfn "[TUC.LS] Start with: %A")
                     |> createObj
         }
 
@@ -206,9 +205,14 @@ module LanguageService =
         cl.onReady ()
         |> Promise.onSuccess (fun _ ->
 
+            cl.onNotification("tuc/domainResolved", (fun (a: Types.PlainNotification) ->
+                printfn "[TUC] On tuc/domainResolved %A -> update project ..." a.content
+                projectUpdate DomainResolved
+            ))
+
             cl.onNotification("tuc/fileParsed", (fun (a: Types.PlainNotification) ->
                 printfn "[TUC] On tuc/fileParsed %A -> update project ..." a.content
-                projectUpdate a.content
+                projectUpdate (TucParsed a.content)
             ))
 
             printfn "[TUC] Ready"

@@ -1,4 +1,9 @@
 namespace Tuc.Extension
+
+type TucProjectUpdate =
+  | DomainResolved
+  | TucParsed of string
+
 [<ReflectedDefinition>]
 module DTO =
 
