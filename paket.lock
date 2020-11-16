@@ -35,13 +35,13 @@ NUGET
       FSharp.Core (>= 4.7)
 GIT
   remote: https://github.com/TypedUseCase/language-server.git
-     (eb326ddcfcfac37d7289893e94a5b00f2d5b8beb)
+     (5e0c1b177b826712685950a1055dd4c540960be2)
       build: build.cmd -t release
       os: win
-     (eb326ddcfcfac37d7289893e94a5b00f2d5b8beb)
+     (5e0c1b177b826712685950a1055dd4c540960be2)
       build: build.sh -t release
       os: linux
-     (eb326ddcfcfac37d7289893e94a5b00f2d5b8beb)
+     (5e0c1b177b826712685950a1055dd4c540960be2)
       build: build.sh -t release
       os: osx
 GITHUB
