@@ -1,0 +1,88 @@
+{
+    "name": "tuc",
+    "displayName": "tuc",
+    "description": "Typed-Use-Case - Use case definition, for which this console application can generate PlantUML diagram, where all services are domain specific type safe.",
+    "icon": "images/tuc-logo.png",
+    "version": "1.2.0",
+    "publisher": "TypedUseCase",
+    "repository": {
+        "url": "https://github.com/TypedUseCase/tuc-extension"
+    },
+    "homepage": "https://typedusecase.github.io/",
+    "engines": {
+        "vscode": "^1.48.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [
+            {
+                "id": "tuc",
+                "aliases": [
+                    "TypedUseCase",
+                    "tuc"
+                ],
+                "extensions": [
+                    ".tuc"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "tuc",
+                "scopeName": "source.tuc",
+                "path": "./syntaxes/tuc.tmLanguage.json"
+            }
+        ],
+        "configuration": {
+            "type": "object",
+            "title": "tuc",
+            "properties": {
+                "TUC.languageServer.path": {
+                    "type": "string",
+                    "default": "",
+                    "description": "The path to the 'LanguageServer' executable or compiled .dll (dll will be run by dotnet), useful for debugging a self-built Language Server. Requires restart.",
+                    "scope": "machine-overridable"
+                },
+                "TUC.languageServer.verbosity": {
+                    "type": "string",
+                    "default": "",
+                    "description": "A verbosity level of the LanguageServer. Requires restart."
+                }
+            }
+        }
+    },
+    "main": "./extension.js",
+    "activationEvents": [
+        "workspaceContains:**/*.tuc",
+        "onLanguage:tuc"
+    ],
+    "problemMatchers": [
+        {
+            "name": "fable-webpack",
+            "owner": "fsharp",
+            "fileLocation": "absolute",
+            "background": {
+                "activeOnStart": true,
+                "beginsPattern": {
+                    "regexp": "webpack: Compiling"
+                },
+                "endsPattern": {
+                    "regexp": "webpack: (Compiled successfully|Failed to compile)"
+                }
+            },
+            "pattern": {
+                "regexp": "(.*)\\((\\d+),(\\d+),(\\d+),(\\d+)\\)\\s*:\\s*(warning|error) FABLE\\s*:\\s*(.*)$",
+                "file": 1,
+                "line": 2,
+                "column": 3,
+                "endLine": 4,
+                "endColumn": 5,
+                "severity": 6,
+                "message": 7
+            }
+        }
+    ]
+}

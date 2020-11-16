@@ -1,5 +1,42 @@
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]eleases/
+x64/
+x86/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+AssemblyInfo.fs
+
+# Paket dependency manager
+.paket/
+packages/
+paket-files/
+
+# Ionide
+.ionide/
+
+# FAKE - F# Make
+.fake/
+
+# Release
+release/bin
+release/bin_ff
+release/bin_netcore
+release/bin_profiler
+release/syntaxes
+release/templates
+release/schemas
+
+# Application
 node_modules
 bin/releaseTag
 
+*.js
+*.js.map
+
 out
 dist
+temp

@@ -1,0 +1,13 @@
+Fable.Core
+Fable.Promise
+Fable.Node
+Fable.Browser.Dom
+
+Fable.HtmlConverter
+
+Thoth.Json
+
+File:Fable.Import.VSCode.fs
+File:Helpers.fs
+File:Fable.Import.Showdown.fs
+File:Fable.Import.VSCode.LanguageServer.fs
