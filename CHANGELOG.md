@@ -2,6 +2,8 @@
 
 <!-- There is always Unreleased section on the top. Subsections (Add, Changed, Fix, Removed) should be Add as needed. -->
 ## Unreleased
+
+## 2.1.0 - 2020-11-16
 - Handle `tuc` files only (*Domain `.fsx` files are handled by LS itself*)
 - Handle `tuc/domainResolved` notification
 
