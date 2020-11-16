@@ -2,6 +2,8 @@
 
 <!-- There is always Unreleased section on the top. Subsections (Add, Changed, Fix, Removed) should be Add as needed. -->
 ## Unreleased
+
+## 2.0.0 - 2020-11-16
 - Change `comment.line` to `comment.line.double-slash`
 - Add recommended extensions
 - Upgrade `Tuc` Grammar

@@ -11,9 +11,9 @@ nuget Fable.HtmlConverter ~> 2.1.0
 
 nuget Thoth.Json ~> 4.1.0
 
-git https://github.com/TypedUseCase/language-server.git 1.0.0 build:"build.cmd -t release", OS: win
-git https://github.com/TypedUseCase/language-server.git 1.0.0 build:"build.sh -t release", OS: linux
-git https://github.com/TypedUseCase/language-server.git 1.0.0 build:"build.sh -t release", OS: osx
+git https://github.com/TypedUseCase/language-server.git 1.0.0 build:"build.cmd -t build", OS: win
+git https://github.com/TypedUseCase/language-server.git 1.0.0 build:"build.sh -t build", OS: linux
+git https://github.com/TypedUseCase/language-server.git 1.0.0 build:"build.sh -t build", OS: osx
 
 github ionide/ionide-vscode-helpers src/Fable.Import.VSCode.fs
 github ionide/ionide-vscode-helpers src/Helpers.fs

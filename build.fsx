@@ -257,6 +257,8 @@ let releaseGithub (release: ReleaseNotes.ReleaseNotes) =
     |> Async.RunSynchronously
 
 let releaseLocal archiveDir =
+    Directory.ensure archiveDir
+
     !! ("./temp" </> "*.vsix")
     |> Seq.iter (Shell.moveFile archiveDir)
 
@@ -375,6 +377,11 @@ Target.create "PublishToGallery" ( fun _ ->
     publishToGallery "release"
 )
 
+Target.create "PublishToGalleryLocal" ( fun _ ->
+    // this task is same as "PublishToGallery", but im not sure about task dependencies atm, so it is here only to able to run "ReleaseLocal" without a "ReleaseGitHub"
+    publishToGallery "release"
+)
+
 Target.create "ReleaseGitHub" (fun _ ->
     releaseGithub release
 )
@@ -429,7 +436,7 @@ Target.create "Tests" ignore
 ==> "Tests"
 ==> "SetVersion"
 ==> "BuildPackage"
-==> "PublishToGallery"
+==> "PublishToGalleryLocal"
 ==> "ReleaseLocal"
 
 "CopyGrammar" ==> "Watch"
