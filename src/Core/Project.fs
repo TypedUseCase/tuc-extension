@@ -52,9 +52,12 @@ module Project =
             clearTimer()
             timer <- Some (setTimeout (fun () -> update tucInfo ()) 1000.)
 
-    let update filePath =
-        ProjectStatus.path <- filePath
-        statusUpdatedEmitter.fire ()
+    let update =
+        (function
+            | DomainResolved -> ProjectStatus.path <- ""
+            | TucParsed filePath -> ProjectStatus.path <- filePath
+        )
+        >> tee (statusUpdatedEmitter.fire)
 
     let activate (context : ExtensionContext) tucInfo =
         printfn "[TUC] Project activate ..."

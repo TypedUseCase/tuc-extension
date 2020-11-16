@@ -35,14 +35,14 @@ NUGET
       FSharp.Core (>= 4.7)
 GIT
   remote: https://github.com/TypedUseCase/language-server.git
-     (5e0c1b177b826712685950a1055dd4c540960be2)
-      build: build.cmd -t release
+     (be40422091a45a2f842927cac03861dc566940d5)
+      build: build.cmd
       os: win
-     (5e0c1b177b826712685950a1055dd4c540960be2)
-      build: build.sh -t release
+     (be40422091a45a2f842927cac03861dc566940d5)
+      build: build.sh
       os: linux
-     (5e0c1b177b826712685950a1055dd4c540960be2)
-      build: build.sh -t release
+     (be40422091a45a2f842927cac03861dc566940d5)
+      build: build.sh
       os: osx
 GITHUB
   remote: ionide/ionide-vscode-helpers
