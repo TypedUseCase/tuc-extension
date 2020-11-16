@@ -50,6 +50,7 @@ let gitName = "tuc-extension"
 
 // let languageServerDir = "../language-server"    // local dir for developing
 let languageServerDir = "paket-files/github.com/TypedUseCase/language-server"
+let archiveDir = "dist"
 
 // Read additional information from the release notes document
 let release = ReleaseNotes.parse (System.IO.File.ReadAllLines "CHANGELOG.md" |> Seq.filter ((<>) "## Unreleased"))
@@ -255,6 +256,10 @@ let releaseGithub (release: ReleaseNotes.ReleaseNotes) =
     |> GitHub.publishDraft//releaseDraft
     |> Async.RunSynchronously
 
+let releaseLocal archiveDir =
+    !! ("./temp" </> "*.vsix")
+    |> Seq.iter (Shell.moveFile archiveDir)
+
 // --------------------------------------------------------------------------------------------------------
 // 3. Targets for FAKE
 // --------------------------------------------------------------------------------------------------------
@@ -374,6 +379,10 @@ Target.create "ReleaseGitHub" (fun _ ->
     releaseGithub release
 )
 
+Target.create "ReleaseLocal" (fun _ ->
+    releaseLocal archiveDir
+)
+
 // --------------------------------------------------------------------------------------------------------
 // 4. FAKE targets hierarchy
 // --------------------------------------------------------------------------------------------------------
@@ -383,7 +392,6 @@ Target.create "Build" ignore
 Target.create "BuildDev" ignore
 Target.create "BuildExp" ignore
 Target.create "Release" ignore
-Target.create "ReleaseExp" ignore
 Target.create "BuildPackages" ignore
 Target.create "Tests" ignore
 
@@ -416,6 +424,13 @@ Target.create "Tests" ignore
 ==> "ReleaseGitHub"
 ==> "PublishToGallery"
 ==> "Release"
+
+"Build"
+==> "Tests"
+==> "SetVersion"
+==> "BuildPackage"
+==> "PublishToGallery"
+==> "ReleaseLocal"
 
 "CopyGrammar" ==> "Watch"
 "YarnInstall" ==> "Watch"
