@@ -1,12 +1,10 @@
-// --------------------------------------------------------------------------------------
-// FAKE build script
-// --------------------------------------------------------------------------------------
-
 #r "paket: groupref build //"
 #load ".fake/build.fsx/intellisense.fsx"
+#r "netstandard"
 
 open System
 open System.IO
+
 open Fake.Core
 open Fake.JavaScript
 open Fake.DotNet
@@ -24,7 +22,7 @@ type ToolDir =
     | Local of string
 
 // ========================================================================================================
-// === F# / VS Code Extension fake build ========================================================== 1.0.0 =
+// === F# / VS Code Extension fake build ========================================================== 1.1.0 =
 // --------------------------------------------------------------------------------------------------------
 // Options:
 //  - no-lint    - lint will be executed, but the result is not validated
@@ -152,6 +150,21 @@ let runFable additionalArgs =
     let cmd = "webpack " + additionalArgs
     Yarn.exec cmd id
 
+[<RequireQualifiedAccess>]
+module ProjectSources =
+    let release dir =
+        !! (dir </> "*.vsix")
+
+    let localRelease =
+        release "./temp"
+
+    let tests =
+        !! "tests/*.fsproj"
+
+    let all =
+        !! "src/**/*.fsproj"
+        ++ "tests/*.fsproj"
+
 let copyLanguageServer releaseBin languageServerBin =
     Directory.ensure releaseBin
     Shell.cleanDir releaseBin
@@ -184,7 +197,8 @@ let copySchemas fsschemaDir fsschemaRelease =
 let buildPackage dir =
     Process.killAllByName "vsce"
     run vsceTool.Value "package" dir
-    !! (sprintf "%s/*.vsix" dir)
+
+    ProjectSources.release dir
     |> Seq.iter(Shell.moveFile "./temp/")
 
 let setPackageJsonField name value releaseDir =
@@ -244,14 +258,12 @@ let releaseGithub (release: ReleaseNotes.ReleaseNotes) =
     Branches.tag "" release.NugetVersion
     Branches.pushTag "" remote release.NugetVersion
 
-    let files = !! ("./temp" </> "*.vsix")
-
     // release on github
     let cl =
         GitHub.createClient user pw
         |> GitHub.draftNewRelease gitOwner gitName release.NugetVersion (release.SemVer.PreRelease <> None) release.Notes
 
-    (cl,files)
+    (cl, ProjectSources.localRelease)
     ||> Seq.fold (fun acc e -> acc |> GitHub.uploadFile e)
     |> GitHub.publishDraft//releaseDraft
     |> Async.RunSynchronously
@@ -259,7 +271,7 @@ let releaseGithub (release: ReleaseNotes.ReleaseNotes) =
 let releaseLocal archiveDir =
     Directory.ensure archiveDir
 
-    !! ("./temp" </> "*.vsix")
+    ProjectSources.localRelease
     |> Seq.iter (Shell.moveFile archiveDir)
 
 // --------------------------------------------------------------------------------------------------------
@@ -275,8 +287,7 @@ Target.create "Clean" (fun _ ->
 )
 
 Target.create "Lint" <| skipOn "no-lint" (fun _ ->
-    let version = " --version 0.16.5"    // todo - remove when .net5.0 is used
-    DotnetCore.installOrUpdateTool toolsDir ("dotnet-fsharplint" + version)
+    DotnetCore.installOrUpdateTool toolsDir "dotnet-fsharplint"
 
     let checkResult (messages: string list) =
         let rec check: string list -> unit = function
@@ -291,10 +302,7 @@ Target.create "Lint" <| skipOn "no-lint" (fun _ ->
         |> List.rev
         |> check
 
-    !! "**/*.*proj"
-    -- "example/**/*.*proj"
-    -- "paket-files/**/*.*proj"
-    -- ".fable/**/*.*proj"
+    ProjectSources.all
     |> Seq.map (fun fsproj ->
         match toolsDir with
         | Global ->

@@ -30,7 +30,7 @@ It auto-complete a keywords, participants and other parts of Tuc.
 ### Prerequisites
 
 - [Visual Studio Code][vscode] 🙄
-- [.NET Core 3.1][dotnet]
+- [.NET Core 5.0][dotnet]
 - [Node.js][nodejs]
 - [Yarn][yarn]
 
