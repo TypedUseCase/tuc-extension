@@ -80,7 +80,7 @@ These two options can be reached in VsCode in the side bar (look for a Beetle sy
 
 The new extension window will appear with window title `Extension development host`
 
-### Working with FSAC
+### Working with FSAC (Language Server)
 
 1. Open FSAC from a new instance of VSCode from the directory: `paket-files/github.com/fsharp/FsAutoComplete`
 2. Build the FSAC solution and copy the dll output from the output log, it should be something like: `paket-files/github.com/fsharp/FsAutoComplete/src/FsAutoComplete/bin/Debug/netcoreapp2.1/fsautocomplete.dll`.  Note `netcoreapp2.1` may be a different version.
@@ -94,6 +94,10 @@ The new extension window will appear with window title `Extension development ho
 There is a video [here](https://www.youtube.com/watch?v=w36_PvHNoPY) that goes through the steps and fixing a bug in a little more detail.
 
 Remove the settings from steps 3 and 4 to go back to FSAC bundled in Tuc extension.
+
+### Release process
+- simply add new version in `CHANGELOG.md` with today's date
+- run `./build.sh -t release` (_which will commit all changes and even tag current version, etc._)
 
 ### Dependencies
 

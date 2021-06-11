@@ -243,7 +243,7 @@ NUGET
     NuGet.Protocol (5.9.1)
       NuGet.Packaging (>= 5.9.1)
     NuGet.Versioning (5.9.1)
-    Octokit (0.50)
+    Octokit (0.49)
     System.Buffers (4.5.1)
     System.CodeDom (5.0)
     System.Collections.Immutable (5.0)
