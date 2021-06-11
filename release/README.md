@@ -96,6 +96,12 @@ There is a video [here](https://www.youtube.com/watch?v=w36_PvHNoPY) that goes t
 Remove the settings from steps 3 and 4 to go back to FSAC bundled in Tuc extension.
 
 ### Release process
+
+#### Manual
+- use `./build.sh -t releaseLocal` if you want to commit/tag/create a release on github by yourself and just want to publish the extension
+
+#### Automatic
+> this might not currently work as expected
 - simply add new version in `CHANGELOG.md` with today's date
 - run `./build.sh -t release` (_which will commit all changes and even tag current version, etc._)
 
