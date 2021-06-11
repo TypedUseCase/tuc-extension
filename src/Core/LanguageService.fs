@@ -183,7 +183,7 @@ module LanguageService =
         | String.IsEmpty ->
             match VSCodeExtension.pluginPath() with
             | Some path -> path + "/bin/LanguageServer.dll"
-            | _ -> "release/bin/netcoreapp3.1/LanguageServer.dll"
+            | _ -> "release/bin/net5.0/LanguageServer.dll"  // to use this, you would probably need a full system path, you should use it in TUC.languageServer.path configuration
         | languageServerPath -> languageServerPath
         |> tee (printfn "LanguageServer: '%s'")
         |> startServer
