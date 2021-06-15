@@ -28,6 +28,8 @@ module Notifications =
     let mutable notifyWorkspaceHandler : Option<Choice<ProjectResult,ProjectLoadingResult,(string * ErrorData),string> -> unit> = None
 
 module LanguageService =
+    open Path.Operators
+
     module Types =
         type PlainNotification= { content: string }
 
@@ -128,7 +130,7 @@ module LanguageService =
         }
 
         // let backgroundSymbolCache = "FSharp.enableBackgroundServices" |> Configuration.get true
-        let languageServerPath =
+        let userDefinedLanguageServerPath =
             match "TUC.languageServer.path" |> Configuration.get "" |> String.trim with
             | String.IsEmpty -> None
             | path -> Some path
@@ -183,12 +185,21 @@ module LanguageService =
                     |> createObj
         }
 
-        match languageServerPath, VSCodeExtension.pluginPath() with
-        | Some languageServerPath, _ -> languageServerPath
-        | _, Some pluginPath -> pluginPath + "/bin/LanguageServer.dll"
-        | _ -> "release/bin/net5.0/LanguageServer.dll"  // to use this, you would probably need a full system path, you should use it in TUC.languageServer.path configuration
-        |> tee (printfn "[TUC.LS] Path: '%s'")
-        |> startServer
+        let languageServerPath =
+            match userDefinedLanguageServerPath, VSCodeExtension.tucInfo() with
+            | Some userDefinedLanguageServerPath, _ -> Some userDefinedLanguageServerPath
+            | _, Some tucExtension when tucExtension.IsActive -> tucExtension.Path </> "bin/LanguageServer.dll" |> Some
+            | _, Some tucExtension -> tucExtension.Path </> "bin/net5.0/LanguageServer.dll" |> Some
+            | _ -> None
+
+        match languageServerPath with
+        | Some languageServerPath ->
+            languageServerPath
+            |> tee (printfn "[TUC.LS] Path: '%s'")
+            |> startServer
+        | _ ->
+            printfn "[TUC.LS] Not found -> it won't be started!"
+            Promise.empty
 
     let tucInfo path =
         match client with
