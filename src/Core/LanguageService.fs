@@ -128,7 +128,11 @@ module LanguageService =
         }
 
         // let backgroundSymbolCache = "FSharp.enableBackgroundServices" |> Configuration.get true
-        let languageServerPath = "TUC.languageServer.path" |> Configuration.get "" |> String.trim
+        let languageServerPath =
+            match "TUC.languageServer.path" |> Configuration.get "" |> String.trim with
+            | String.IsEmpty -> None
+            | path -> Some path
+
         let verbosity = "TUC.languageServer.verbosity" |> Configuration.get "" |> String.trim
 
         let startServer languageServerPath = promise {
@@ -179,13 +183,11 @@ module LanguageService =
                     |> createObj
         }
 
-        match languageServerPath with
-        | String.IsEmpty ->
-            match VSCodeExtension.pluginPath() with
-            | Some path -> path + "/bin/LanguageServer.dll"
-            | _ -> "release/bin/net5.0/LanguageServer.dll"  // to use this, you would probably need a full system path, you should use it in TUC.languageServer.path configuration
-        | languageServerPath -> languageServerPath
-        |> tee (printfn "LanguageServer: '%s'")
+        match languageServerPath, VSCodeExtension.pluginPath() with
+        | Some languageServerPath, _ -> languageServerPath
+        | _, Some pluginPath -> pluginPath + "/bin/LanguageServer.dll"
+        | _ -> "release/bin/net5.0/LanguageServer.dll"  // to use this, you would probably need a full system path, you should use it in TUC.languageServer.path configuration
+        |> tee (printfn "[TUC.LS] Path: '%s'")
         |> startServer
 
     let tucInfo path =

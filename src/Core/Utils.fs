@@ -390,8 +390,16 @@ module VSCodeExtension =
 
     let private extensionName = "tuc"
 
+    let showPluginInfo pluginName =
+        // see https://code.visualstudio.com/api/references/vscode-api#Extension%3CT%3E
+        printfn "[VSCode][%s]: %A" pluginName (extensions.getExtension pluginName)
+
     let pluginPath () =
-        try VSCode.getPluginPath extensionName |> Some
+        try
+            extensionName
+            |> tee showPluginInfo
+            |> VSCode.getPluginPath
+            |> Some
         with _ -> None
 
     let workbenchViewId () =
