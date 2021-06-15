@@ -2,9 +2,11 @@
 
 <!-- There is always Unreleased section on the top. Subsections (Add, Changed, Fix, Removed) should be Add as needed. -->
 ## Unreleased
+
+## 2.3.1 - 2021-06-15
 - Fix inner extension name and getting a path to resolve a Language Server
 
-## 2.3.0 - 2021-06-11
+## 2.3.0 - 2021-06-15
 - Show more info about language server and extension
 
 ## 2.2.0 - 2021-06-11
