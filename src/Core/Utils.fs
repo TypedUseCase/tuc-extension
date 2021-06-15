@@ -178,6 +178,11 @@ module Utils =
         f a
         a
 
+module Path =
+    module Operators =
+        let inline (</>) (a: string) (b: string) =
+            a.TrimEnd('/') + "/" + b.TrimStart('/')
+
 [<AutoOpen>]
 module JS =
     open Fable.Core
@@ -387,24 +392,41 @@ type ShowStatus private (panel : WebviewPanel, body : string) as this =
 
 [<RequireQualifiedAccess>]
 module VSCodeExtension =
+    let [<Literal>] ExtensionName = "TypedUseCase.tuc"
 
-    let private extensionName = "tuc"
+    type Extension = {
+        Id: string
+        Path: string
+        IsActive: bool
+    }
 
-    let showPluginInfo pluginName =
-        // see https://code.visualstudio.com/api/references/vscode-api#Extension%3CT%3E
-        printfn "[VSCode][%s]: %A" pluginName (extensions.getExtension pluginName)
-
-    let pluginPath () =
+    let info extensionName =
         try
-            extensionName
-            |> tee showPluginInfo
-            |> VSCode.getPluginPath
-            |> Some
-        with _ -> None
+            let ext = extensions.getExtension extensionName
+
+            Some {
+                Id = try ext.id with _ -> extensionName
+                Path = try ext.extensionPath with _ -> ""
+                IsActive = try ext.isActive with _ -> false
+            }
+        with e ->
+            printfn "[VSCode] Error: %A" e.Message
+            None
+
+    let showInfo extension =
+        printfn "[VSCode][%s]: \n%s" extension.Id ([
+            "Id", extension.Id
+            "Path", extension.Path
+            "IsActive", if extension.IsActive then "Yes" else "No"
+        ] |> List.map (fun (k, v) -> sprintf "- %s: %s" k v) |> String.concat "\n")
+
+    let tucInfo () =
+        ExtensionName
+        |> info
+        |> tee (Option.iter showInfo)
 
     let workbenchViewId () =
-        sprintf "workbench.view.extension.%s" extensionName
-
+        sprintf "workbench.view.extension.%s" ExtensionName
 
 [<AutoOpen>]
 module Objectify =
